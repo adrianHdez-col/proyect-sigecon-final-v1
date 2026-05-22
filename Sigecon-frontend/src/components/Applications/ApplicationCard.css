@@ -1,0 +1,117 @@
+.application-card {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.application-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.app-info h3 {
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--gray-900);
+}
+
+.app-meta {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.9rem;
+  color: var(--gray-600);
+}
+
+.meta-item svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.app-status {
+  display: inline-block;
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.app-contact {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  padding: var(--spacing-md) 0;
+  border-top: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.app-contact a {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.9rem;
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.app-contact a:hover {
+  color: var(--primary-dark);
+}
+
+.app-score {
+  background-color: #fef3c7;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 600;
+  color: #78350f;
+}
+
+.app-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.app-actions button {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+  }
+
+  .app-status {
+    align-self: flex-start;
+  }
+
+  .app-contact {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .app-actions {
+    flex-direction: column;
+  }
+}

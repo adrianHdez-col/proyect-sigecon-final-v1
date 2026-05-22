@@ -1,0 +1,239 @@
+.knowledge-test {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.test-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg) !important;
+}
+
+.header-left h2 {
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.test-meta {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 0.9rem;
+}
+
+.time-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: #eff6ff;
+  color: var(--primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.time-indicator.warning {
+  background-color: #fef3c7;
+  color: var(--warning);
+}
+
+.test-body {
+  padding: var(--spacing-2xl) !important;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: var(--gray-200);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transition: width 0.3s ease;
+}
+
+.question-container {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.question-text {
+  margin: 0 0 var(--spacing-lg) 0;
+  color: var(--gray-900);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--gray-50);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.option:hover {
+  background-color: #dbeafe;
+  border-color: var(--primary);
+}
+
+.option input[type="radio"] {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.option-text {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.option input[type="radio"]:checked + .option-text {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.short-answer {
+  width: 100%;
+  min-height: 150px;
+  padding: var(--spacing-md);
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: var(--spacing-lg);
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: space-between;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-2xl);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.navigation-buttons button {
+  flex: 1;
+}
+
+.question-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+}
+
+.question-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--gray-200);
+  color: var(--gray-700);
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.question-dot:hover {
+  transform: scale(1.1);
+}
+
+.question-dot.answered {
+  background-color: #10b981;
+  color: white;
+}
+
+.question-dot.current {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary-dark);
+  transform: scale(1.15);
+}
+
+/* Test Result */
+.test-result {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.result-content {
+  text-align: center;
+  padding: var(--spacing-2xl);
+}
+
+.result-icon {
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  justify-content: center;
+}
+
+.result-icon.success {
+  color: var(--success);
+}
+
+.result-icon.warning {
+  color: var(--warning);
+}
+
+.result-content h2 {
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.result-message {
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-2xl);
+  font-size: 1.1rem;
+}
+
+.result-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-2xl);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  border-radius: var(--radius-lg);
+}
+
+.score-value {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.score-label {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .test-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .test-body {
+    padding: var(--spacing-lg) !important;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+  }
+}

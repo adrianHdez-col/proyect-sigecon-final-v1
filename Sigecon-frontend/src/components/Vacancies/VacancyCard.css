@@ -1,0 +1,126 @@
+.vacancy-card {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.vacancy-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.vacancy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.vacancy-header h3 {
+  margin: 0;
+  color: var(--gray-900);
+  font-size: 1.25rem;
+}
+
+.vacancy-status {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-active {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-inactive {
+  background-color: #fee2e2;
+  color: #7f1d1d;
+}
+
+.vacancy-department {
+  margin: 0;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.vacancy-description {
+  margin: var(--spacing-sm) 0;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+.vacancy-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  border-top: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.9rem;
+  color: var(--gray-700);
+}
+
+.detail svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.vacancy-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.skill-tag {
+  display: inline-block;
+  background-color: #eff6ff;
+  color: var(--primary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.vacancy-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--gray-200);
+}
+
+.vacancy-actions button {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .vacancy-header {
+    flex-direction: column;
+  }
+
+  .vacancy-details {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .vacancy-actions {
+    flex-direction: column;
+  }
+}

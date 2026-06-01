@@ -38,13 +38,13 @@
 }
 
 .status-active {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: var(--success-soft);
+  color: var(--success-dark);
 }
 
 .status-inactive {
-  background-color: #fee2e2;
-  color: #7f1d1d;
+  background-color: var(--danger-soft);
+  color: var(--danger-dark);
 }
 
 .vacancy-department {
@@ -90,8 +90,8 @@
 
 .skill-tag {
   display: inline-block;
-  background-color: #eff6ff;
-  color: var(--primary);
+  background-color: var(--primary-soft);
+  color: var(--primary-dark);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-md);
   font-size: 0.85rem;

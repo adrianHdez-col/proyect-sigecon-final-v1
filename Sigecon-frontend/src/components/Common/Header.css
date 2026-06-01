@@ -1,7 +1,7 @@
 .header {
-  background-color: var(--primary);
+  background-color: var(--primary-dark);
   color: white;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -66,6 +66,29 @@
 .user-role {
   font-size: 0.85rem;
   opacity: 0.9;
+}
+
+@media (max-width: 1024px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .header-right {
+    gap: var(--spacing-md);
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .header-container {
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .logo {
+    font-size: 1.35rem;
+  }
 }
 
 .logout-btn {

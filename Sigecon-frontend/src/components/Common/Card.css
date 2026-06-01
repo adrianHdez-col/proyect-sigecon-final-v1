@@ -4,15 +4,17 @@
   box-shadow: var(--shadow-md);
   overflow: hidden;
   transition: var(--transition);
+  border: 1px solid rgba(56, 99, 92, 0.08);
 }
 
 .card:hover {
   box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
 }
 
 .card-header {
   padding: var(--spacing-lg);
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid rgba(56, 99, 92, 0.12);
   background-color: var(--gray-50);
 }
 
@@ -27,7 +29,7 @@
 
 .card-footer {
   padding: var(--spacing-lg);
-  border-top: 1px solid var(--gray-200);
+  border-top: 1px solid rgba(56, 99, 92, 0.12);
   background-color: var(--gray-50);
   display: flex;
   gap: var(--spacing-md);

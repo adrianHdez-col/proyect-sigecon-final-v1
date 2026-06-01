@@ -7,13 +7,18 @@ import '../Resume/ResumeForm.css';
 export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
   const [formData, setFormData] = useState(initialData || {
     fullName: '',
+    title: '',
     email: '',
     phone: '',
     location: '',
+    linkedin: '',
+    website: '',
+    languages: '',
     professionalSummary: '',
-    experience: [{ company: '', position: '', startDate: '', endDate: '', current: false, description: '' }],
-    education: [{ institution: '', degree: '', startDate: '', endDate: '', description: '' }],
-    skills: [{ name: '', level: 'intermedio' }],
+    experience: [{ id: 1, company: '', position: '', startDate: '', endDate: '', current: false, description: '', attachment: null }],
+    education: [{ id: 1, institution: '', degree: '', startDate: '', endDate: '', description: '' }],
+    skills: [{ id: 1, name: '', level: 'intermedio' }],
+    certifications: [{ id: 1, name: '', issuer: '', date: '', file: null }],
   });
 
   const [errors, setErrors] = useState({});
@@ -35,11 +40,21 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
     }));
   };
 
+  const handleFileChange = (section, index, field, file) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: prev[section].map((item, i) =>
+        i === index ? { ...item, [field]: file } : item
+      ),
+    }));
+  };
+
   const addArrayItem = (section) => {
     const templates = {
-      experience: { company: '', position: '', startDate: '', endDate: '', current: false, description: '' },
-      education: { institution: '', degree: '', startDate: '', endDate: '', description: '' },
-      skills: { name: '', level: 'intermedio' },
+      experience: { id: Date.now(), company: '', position: '', startDate: '', endDate: '', current: false, description: '', attachment: null },
+      education: { id: Date.now(), institution: '', degree: '', startDate: '', endDate: '', description: '' },
+      skills: { id: Date.now(), name: '', level: 'intermedio' },
+      certifications: { id: Date.now(), name: '', issuer: '', date: '', file: null },
     };
     setFormData(prev => ({
       ...prev,
@@ -72,7 +87,6 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
 
   return (
     <form onSubmit={handleSubmit} className="resume-form">
-      {/* Personal Info */}
       <Card>
         <CardHeader>
           <h2>Información Personal</h2>
@@ -89,6 +103,15 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
               containerClass="form-col"
             />
             <Input
+              label="Título Profesional"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              containerClass="form-col"
+            />
+          </div>
+          <div className="form-row">
+            <Input
               label="Email"
               type="email"
               name="email"
@@ -98,21 +121,46 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
               required
               containerClass="form-col"
             />
-          </div>
-          <div className="form-row">
             <Input
               label="Teléfono"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              error={errors.phone}
               required
               containerClass="form-col"
             />
+          </div>
+          <div className="form-row">
             <Input
               label="Ubicación"
               name="location"
               value={formData.location}
               onChange={handleChange}
+              containerClass="form-col"
+            />
+            <Input
+              label="LinkedIn"
+              name="linkedin"
+              value={formData.linkedin}
+              onChange={handleChange}
+              containerClass="form-col"
+            />
+          </div>
+          <div className="form-row">
+            <Input
+              label="Sitio web / Portfolio"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              containerClass="form-col"
+            />
+            <Input
+              label="Idiomas"
+              name="languages"
+              value={formData.languages}
+              onChange={handleChange}
+              placeholder="Ej. Español, Inglés"
               containerClass="form-col"
             />
           </div>
@@ -126,7 +174,6 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
         </CardBody>
       </Card>
 
-      {/* Experience */}
       <Card>
         <CardHeader>
           <h2>Experiencia Laboral</h2>
@@ -176,6 +223,13 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
                 value={exp.description}
                 onChange={(e) => handleArrayChange('experience', idx, 'description', e.target.value)}
               />
+              <Input
+                label="Archivo adjunto (experiencia)"
+                type="file"
+                accept="application/pdf,image/*"
+                onChange={(e) => handleFileChange('experience', idx, 'attachment', e.target.files?.[0] || null)}
+                helperText={exp.attachment ? `Archivo cargado: ${exp.attachment.name}` : 'PDF o imagen opcional'}
+              />
               {formData.experience.length > 1 && (
                 <Button
                   variant="danger"
@@ -198,7 +252,6 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
         </CardBody>
       </Card>
 
-      {/* Education */}
       <Card>
         <CardHeader>
           <h2>Educación</h2>
@@ -259,7 +312,6 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
         </CardBody>
       </Card>
 
-      {/* Skills */}
       <Card>
         <CardHeader>
           <h2>Habilidades</h2>
@@ -304,6 +356,62 @@ export const ResumeForm = ({ initialData, onSubmit, loading = false }) => {
             type="button"
           >
             + Agregar Habilidad
+          </Button>
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <h2>Certificaciones</h2>
+        </CardHeader>
+        <CardBody className="array-section">
+          {formData.certifications.map((cert, idx) => (
+            <div key={idx} className="array-item">
+              <div className="form-row">
+                <Input
+                  label="Certificación"
+                  value={cert.name}
+                  onChange={(e) => handleArrayChange('certifications', idx, 'name', e.target.value)}
+                  containerClass="form-col"
+                />
+                <Input
+                  label="Entidad"
+                  value={cert.issuer}
+                  onChange={(e) => handleArrayChange('certifications', idx, 'issuer', e.target.value)}
+                  containerClass="form-col"
+                />
+              </div>
+              <Input
+                label="Fecha"
+                type="date"
+                value={cert.date}
+                onChange={(e) => handleArrayChange('certifications', idx, 'date', e.target.value)}
+              />
+              <Input
+                label="Adjuntar certificado"
+                type="file"
+                accept="application/pdf,image/*"
+                onChange={(e) => handleFileChange('certifications', idx, 'file', e.target.files?.[0] || null)}
+                helperText={cert.file ? `Archivo cargado: ${cert.file.name}` : 'PDF o imagen opcional'}
+              />
+              {formData.certifications.length > 1 && (
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => removeArrayItem('certifications', idx)}
+                >
+                  Eliminar
+                </Button>
+              )}
+            </div>
+          ))}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => addArrayItem('certifications')}
+            type="button"
+          >
+            + Agregar Certificación
           </Button>
         </CardBody>
       </Card>

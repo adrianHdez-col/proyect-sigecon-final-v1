@@ -67,25 +67,25 @@
 
 /* Variants */
 .alert-info {
-  background-color: #dbeafe;
+  background-color: var(--info-soft);
   border-left: 4px solid var(--info);
-  color: #0c4a6e;
+  color: var(--info-dark);
 }
 
 .alert-success {
-  background-color: #dcfce7;
+  background-color: var(--success-soft);
   border-left: 4px solid var(--success);
-  color: #166534;
+  color: var(--success-dark);
 }
 
 .alert-warning {
-  background-color: #fef3c7;
+  background-color: var(--warning-soft);
   border-left: 4px solid var(--warning);
-  color: #78350f;
+  color: var(--warning-dark);
 }
 
 .alert-error {
-  background-color: #fee2e2;
+  background-color: var(--danger-soft);
   border-left: 4px solid var(--danger);
-  color: #7f1d1d;
+  color: var(--danger-dark);
 }

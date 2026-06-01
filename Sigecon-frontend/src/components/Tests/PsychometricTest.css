@@ -94,7 +94,7 @@
 
 .scale-btn:hover {
   border-color: var(--primary);
-  background-color: #eff6ff;
+  background-color: var(--primary-soft);
 }
 
 .scale-btn.selected {
@@ -131,7 +131,7 @@
 }
 
 .choice:hover {
-  background-color: #eff6ff;
+  background-color: var(--primary-soft);
   border-color: var(--primary);
 }
 
@@ -176,8 +176,8 @@
 }
 
 .result-info {
-  background-color: #eff6ff;
-  color: var(--primary);
+  background-color: var(--primary-soft);
+  color: var(--primary-dark);
   padding: var(--spacing-lg);
   border-radius: var(--radius-md);
   margin-top: var(--spacing-lg);

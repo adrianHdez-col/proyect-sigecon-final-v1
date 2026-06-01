@@ -88,7 +88,9 @@ export const DashboardPage = () => {
           const Icon = action.icon;
           return (
             <Link to={action.path} className="quick-action" key={action.label}>
-              <Icon size={22} />
+              <span className="quick-action-icon">
+                <Icon size={18} />
+              </span>
               <span>{action.label}</span>
             </Link>
           );
@@ -126,7 +128,9 @@ export const DashboardPage = () => {
                     <strong>{application.candidateName}</strong>
                     <span>{statusLabels[application.status]}</span>
                   </div>
-                  <small>{application.score ? `${application.score}%` : 'Pendiente'}</small>
+                  <small className={`status-pill ${application.score ? 'status-pill-success' : 'status-pill-warning'}`}>
+                    {application.score ? `${application.score}%` : 'Pendiente'}
+                  </small>
                 </div>
               ))}
             </div>

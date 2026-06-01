@@ -39,7 +39,7 @@ const ProtectedLayout = () => {
         mobileMenuOpen={mobileMenuOpen}
         onMenuToggle={() => setMobileMenuOpen((open) => !open)}
       />
-      <Sidebar isOpen={mobileMenuOpen} />
+      <Sidebar isOpen={mobileMenuOpen} onLinkClick={() => setMobileMenuOpen(false)} />
       {mobileMenuOpen && (
         <button
           className="mobile-menu-backdrop"

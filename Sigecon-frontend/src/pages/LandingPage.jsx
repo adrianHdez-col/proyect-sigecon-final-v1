@@ -1,155 +1,178 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, ClipboardList, ShieldCheck, UserCheck, Users } from 'lucide-react';
-import heroImage from '../assets/hero.png';
+import {
+  Briefcase,
+  Building2,
+  CheckCircle2,
+  Search,
+  ShieldCheck,
+  Star,
+  Target,
+  UserCheck,
+  Users,
+} from 'lucide-react';
+import logoImage from '../assets/sigecon-logo.svg';
+import heroPeopleImage from '../assets/43d36123-9298-40c0-b10a-ad16065cbe9f.png';
 import '../styles/landing.css';
 
-const highlights = [
-  {
-    icon: ClipboardList,
-    title: 'Vacantes organizadas',
-    text: 'Publica cargos, requisitos, salarios y estados desde un solo panel.',
-  },
-  {
-    icon: Users,
-    title: 'Candidatos visibles',
-    text: 'Centraliza aplicaciones, hojas de vida y datos de contacto para revisar mejor.',
-  },
-  {
-    icon: CheckCircle2,
-    title: 'Evaluaciones guiadas',
-    text: 'Acompana pruebas de conocimiento, psicotecnicas e induccion sin perder el rastro.',
-  },
+const featuredJobs = [
+  { icon: UserCheck, title: 'Desarrollador Full Stack', company: 'Empresa Tech', type: 'Remoto' },
+  { icon: Target, title: 'Diseñador UI/UX', company: 'Creativa Studio', type: 'Híbrido' },
+  { icon: Briefcase, title: 'Analista de Datos', company: 'Data Smart', type: 'Remoto' },
 ];
 
-const roles = [
-  {
-    icon: ShieldCheck,
-    name: 'Administrador',
-    function: 'Control total del sistema',
-  },
-  {
-    icon: Users,
-    name: 'Reclutador',
-    function: 'Gestion de vacantes y candidatos',
-  },
-  {
-    icon: CheckCircle2,
-    name: 'Evaluador',
-    function: 'Aplicacion y revision de pruebas',
-  },
-  {
-    icon: UserCheck,
-    name: 'Aspirante',
-    function: 'Registro y postulacion',
-  },
+const candidates = [
+  { name: 'Maria Lopez', role: 'Diseñadora UI/UX' },
+  { name: 'Javier Fernandez', role: 'Ingeniero de Software' },
+  { name: 'Camila Torres', role: 'Analista de Datos' },
+  { name: 'Andres Gomez', role: 'Product Manager' },
+];
+
+const benefits = [
+  { icon: Users, title: 'Miles de candidatos', text: 'Encuentra el perfil que necesitas' },
+  { icon: Target, title: 'Filtros avanzados', text: 'Ahorra tiempo y encuentra mejor' },
+  { icon: ShieldCheck, title: 'Proceso seguro', text: 'Contrata con confianza' },
+];
+
+const stats = [
+  { icon: Briefcase, value: '+10.000', label: 'Ofertas publicadas' },
+  { icon: Users, value: '+50.000', label: 'Candidatos registrados' },
+  { icon: Building2, value: '+5.000', label: 'Empresas confian en nosotros' },
+  { icon: CheckCircle2, value: '', label: 'Contrataciones exitosas cada dia' },
 ];
 
 const LandingPage = () => {
   return (
     <main className="landing-page">
       <section className="landing-hero">
-        <header className="landing-nav">
-          <div className="landing-brand">
-            <span className="brand-mark">S</span>
-            <span>SIGECON</span>
-          </div>
-          <nav className="landing-links" aria-label="Navegacion principal">
-            <a href="#modulos">Modulos</a>
-            <a href="#flujo">Flujo</a>        
-            <Link to="/login" className="landing-login">Ingresar</Link>
+        <header className="landing-header">
+          <Link to="/" className="landing-brand" aria-label="SIGECON inicio">
+            <img src={logoImage} alt="SIGECON" className="landing-logo" />
+          </Link>
+
+          <nav className="landing-nav" aria-label="Navegación principal">
+            <a href="#buscar">Buscar empleos</a>
+            <a href="#publicar">Publicar empleo</a>
+            <a href="#empresas">Empresas</a>
+            <a href="#candidatos">Candidatos</a>
           </nav>
+
+          <div className="landing-actions">
+            <Link to="/login" className="header-link">Iniciar sesión</Link>
+            <Link to="/register" className="header-button">Crear cuenta</Link>
+          </div>
         </header>
 
-        <div className="hero-content">
+        <div className="hero-shell">
           <div className="hero-copy">
-            <p className="hero-kicker">Gestion de contratacion y seleccion</p>
-            <h1>SIGECON</h1>
-            <p className="hero-text">
-              Una plataforma para administrar vacantes, candidatos, evaluaciones y hojas de vida
-              con una experiencia clara para reclutadores y aspirantes.
+            <h1>
+              Encuentra al <span>talento ideal</span> para tu empresa
+            </h1>
+            <p>
+              Publica tus ofertas de trabajo y conecta con miles de profesionales listos para un nuevo desafio.
             </p>
-            <div className="hero-actions">
-              <Link to="/login" className="hero-primary">
-                Entrar al sistema
-                <ArrowRight size={20} />
-              </Link>
-              <Link to="/register" className="hero-secondary">Crear cuenta</Link>
-            </div>
-          </div>
 
-          <div className="hero-visual" aria-label="Vista previa del panel SIGECON">
-            <div className="product-window">
-              <div className="window-top">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div className="window-body">
-                <aside className="preview-sidebar">
-                  <strong>SIGECON</strong>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </aside>
-                <div className="preview-dashboard">
-                  <div className="preview-header">
+            <Link to="/register" className="publish-cta" id="publicar">
+              <span>
+                <Briefcase size={28} />
+              </span>
+              <strong>
+                Publicar empleo
+                <small>Es rapido y sencillo</small>
+              </strong>
+            </Link>
+
+            <div className="benefit-row" id="empresas">
+              {benefits.map((benefit) => {
+                const Icon = benefit.icon;
+                return (
+                  <article className="benefit-item" key={benefit.title}>
                     <div>
-                      <small>Panel de control</small>
-                      <strong>Contratacion activa</strong>
+                      <Icon size={30} />
                     </div>
-                    <img src={heroImage} alt="" />
+                    <h3>{benefit.title}</h3>
+                    <p>{benefit.text}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="hero-visual" id="buscar" aria-label="Vista previa de busqueda de talento">
+            <div className="teal-shape" />
+            <div className="dot-pattern" />
+
+            <div className="search-card">
+              <Search size={18} />
+              <span>Buscar empleos, empresas o palabras clave...</span>
+              <Search size={18} />
+            </div>
+
+            <article className="jobs-card floating-card">
+              <h2>Ofertas destacadas</h2>
+              <div className="card-divider" />
+              {featuredJobs.map((job) => {
+                const Icon = job.icon;
+                return (
+                  <div className="job-row" key={job.title}>
+                    <span className="job-icon">
+                      <Icon size={20} />
+                    </span>
+                    <div>
+                      <strong>{job.title}</strong>
+                      <small>{job.company}</small>
+                      <em>{job.type}</em>
+                    </div>
                   </div>
-                  <div className="preview-stats">
-                    <span>3 vacantes</span>
-                    <span>15 candidatos</span>
-                    <span>8 evaluaciones</span>
+                );
+              })}
+              <a href="#candidatos">Ver todas las ofertas</a>
+            </article>
+
+            <article className="profile-card floating-card">
+              <div className="profile-photo">CM</div>
+              <h2>Carlos Martinez</h2>
+              <strong>Desarrollador Full Stack</strong>
+              <p>5 años de experiencia</p>
+              <span>React · Node.js · SQL · MongoDB</span>
+              <Link to="/login">Ver perfil</Link>
+            </article>
+
+            <article className="candidates-card floating-card" id="candidatos">
+              <h2>Candidatos recomendados</h2>
+              <div className="card-divider" />
+              {candidates.map((candidate) => (
+                <div className="candidate-row" key={candidate.name}>
+                  <span>{candidate.name.split(' ').map((part) => part[0]).join('')}</span>
+                  <div>
+                    <strong>{candidate.name}</strong>
+                    <small>{candidate.role}</small>
                   </div>
-                  <div className="preview-list">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
+                  <Star size={15} fill="currentColor" />
                 </div>
-              </div>
+              ))}
+              <a href="#candidatos">Ver todos los candidatos</a>
+            </article>
+
+            <div className="people-scene" aria-hidden="true">
+              <img src={heroPeopleImage} alt="" className="hero-people-image" />
             </div>
           </div>
         </div>
-      </section>
 
-      <section id="modulos" className="landing-section">
-        <div className="section-heading">
-          <p>Modulos principales</p>
-          <h2>Todo el proceso en una sola ruta de trabajo</h2>
-        </div>
-        <div className="feature-grid">
-          {highlights.map((item) => {
-            const Icon = item.icon;
+        <div className="stats-bar">
+          {stats.map((stat) => {
+            const Icon = stat.icon;
             return (
-              <article className="feature-card" key={item.title}>
-                <Icon size={28} />
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
+              <article key={stat.label}>
+                <Icon size={36} />
+                <div>
+                  {stat.value && <strong>{stat.value}</strong>}
+                  <span>{stat.label}</span>
+                </div>
               </article>
             );
           })}
         </div>
-      </section>
-
-    
-      <section id="flujo" className="landing-flow">
-        <div>
-          <p className="section-label">Flujo del sistema</p>
-          <h2>De la vacante al aspirante seleccionado</h2>
-        </div>
-        <ol className="flow-list">
-          <li>El reclutador crea la vacante y define requisitos.</li>
-          <li>El aspirante se registra, aplica y mantiene su hoja de vida actualizada.</li>
-          <li>El evaluador revisa pruebas, puntajes y estados del proceso.</li>
-        </ol>
-        <Link to="/login" className="flow-link">
-          Probar con credenciales demo
-          <ArrowRight size={18} />
-        </Link>
       </section>
     </main>
   );

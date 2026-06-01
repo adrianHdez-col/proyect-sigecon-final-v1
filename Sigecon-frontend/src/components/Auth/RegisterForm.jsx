@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Eye, LockKeyhole, Mail, User } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { Button } from '../Common/Button';
-import { Input, Select } from '../Common/Input';
 import { Alert } from '../Common/Alert';
+import logoImage from '../../assets/sigecon-logo.svg';
 import './LoginForm.css';
 
 const roleHome = {
@@ -16,12 +15,12 @@ const roleHome = {
 
 export const RegisterForm = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    company: '',
-    role: 'aspirant',
     password: '',
     confirmPassword: '',
+    terms: false,
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -29,8 +28,8 @@ export const RegisterForm = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, type, checked, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -38,13 +37,14 @@ export const RegisterForm = () => {
 
   const validateForm = () => {
     const nextErrors = {};
-    if (!formData.fullName.trim()) nextErrors.fullName = 'Ingresa tu nombre completo';
-    if (!formData.email.trim()) nextErrors.email = 'Ingresa tu correo empresarial';
-    if (!formData.company.trim()) nextErrors.company = 'Ingresa la empresa o institucion';
+    if (!formData.firstName.trim()) nextErrors.firstName = 'Ingresa tu nombre';
+    if (!formData.lastName.trim()) nextErrors.lastName = 'Ingresa tus apellidos';
+    if (!formData.email.trim()) nextErrors.email = 'Ingresa tu correo electronico';
     if (formData.password.length < 8) nextErrors.password = 'Usa minimo 8 caracteres';
     if (formData.password !== formData.confirmPassword) {
       nextErrors.confirmPassword = 'Las contrasenas no coinciden';
     }
+    if (!formData.terms) nextErrors.terms = 'Debes aceptar los terminos';
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
@@ -54,110 +54,134 @@ export const RegisterForm = () => {
     if (!validateForm()) return;
 
     setLoading(true);
-    const result = register(formData);
+    const result = register({
+      fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+      email: formData.email,
+      company: 'SIGECON',
+      role: 'aspirant',
+      password: formData.password,
+    });
     setLoading(false);
 
     if (result.success) {
-      navigate(roleHome[formData.role] || '/dashboard');
+      navigate(roleHome.aspirant);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="login-form auth-form-wide">
-      <div className="form-header">
-        <span className="auth-eyebrow">Crear cuenta profesional</span>
-        <h1>Registro SIGECON</h1>
-        <p>Configura tu perfil para comenzar a gestionar procesos de seleccion.</p>
-      </div>
+    <section className="register-showcase">
+      <form onSubmit={handleSubmit} className="register-card">
+        <div className="modern-form-header register-header">
+          <img src={logoImage} alt="SIGECON" />
+          <h1>Crea tu cuenta</h1>
+          <p>Únete y comienza a conectar con el mejor talento.</p>
+        </div>
 
-      <Alert
-        type="success"
-        title="Acceso inmediato"
-        message="Este registro demo crea la sesion local y te lleva al panel segun tu perfil."
-      />
+        {(errors.firstName || errors.lastName || errors.email || errors.password || errors.confirmPassword || errors.terms) && (
+          <Alert
+            type="error"
+            message="Revisa los campos marcados para continuar."
+          />
+        )}
 
-      <div className="auth-grid">
-        <Input
-          label="Nombre completo"
-          name="fullName"
-          value={formData.fullName}
-          onChange={handleChange}
-          error={errors.fullName}
-          placeholder="Ej: Maria Gonzalez"
-          required
-        />
-        <Input
-          label="Correo"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          error={errors.email}
-          placeholder="nombre@empresa.com"
-          required
-        />
-      </div>
+        <div className="register-grid">
+          <label className="modern-field">
+            <span>Nombre</span>
+            <div className={`modern-input ${errors.firstName ? 'modern-input-error' : ''}`}>
+              <User size={20} />
+              <input
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="Tu nombre"
+                required
+              />
+            </div>
+          </label>
 
-      <div className="auth-grid">
-        <Input
-          label="Empresa o institucion"
-          name="company"
-          value={formData.company}
-          onChange={handleChange}
-          error={errors.company}
-          placeholder="SIGECON S.A.S."
-          required
-        />
-        <Select
-          label="Tipo de usuario"
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-          options={[
-            { value: 'admin', label: 'Administrador - Control total del sistema' },
-            { value: 'recruiter', label: 'Reclutador' },
-            { value: 'evaluator', label: 'Evaluador - Aplicacion y revision de pruebas' },
-            { value: 'aspirant', label: 'Aspirante - Registro y postulacion' },
-          ]}
-          required
-        />
-      </div>
+          <label className="modern-field">
+            <span>Apellidos</span>
+            <div className={`modern-input ${errors.lastName ? 'modern-input-error' : ''}`}>
+              <User size={20} />
+              <input
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Tus apellidos"
+                required
+              />
+            </div>
+          </label>
+        </div>
 
-      <div className="auth-grid">
-        <Input
-          label="Contrasena"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          error={errors.password}
-          placeholder="Minimo 8 caracteres"
-          required
-        />
-        <Input
-          label="Confirmar contrasena"
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          error={errors.confirmPassword}
-          placeholder="Repite tu contrasena"
-          required
-        />
-      </div>
+        <label className="modern-field">
+          <span>Correo electrónico</span>
+          <div className={`modern-input ${errors.email ? 'modern-input-error' : ''}`}>
+            <Mail size={20} />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="tu@correo.com"
+              required
+            />
+          </div>
+        </label>
 
-      <div className="auth-assurance">
-        <span><ShieldCheck size={18} /> Datos protegidos</span>
-        <span><CheckCircle2 size={18} /> Perfil listo para evaluar</span>
-      </div>
+        <label className="modern-field">
+          <span>Contraseña</span>
+          <div className={`modern-input ${errors.password ? 'modern-input-error' : ''}`}>
+            <LockKeyhole size={20} />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Crea una contraseña"
+              required
+            />
+            <Eye size={20} />
+          </div>
+        </label>
 
-      <Button variant="primary" size="lg" fullWidth loading={loading}>
-        Crear cuenta
-      </Button>
+        <label className="modern-field">
+          <span>Confirmar contraseña</span>
+          <div className={`modern-input ${errors.confirmPassword ? 'modern-input-error' : ''}`}>
+            <LockKeyhole size={20} />
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirma tu contraseña"
+              required
+            />
+            <Eye size={20} />
+          </div>
+        </label>
 
-      <p className="auth-switch">
-        Ya tienes cuenta? <Link to="/login">Inicia sesion</Link>
-      </p>
-    </form>
+        <label className={`terms-row ${errors.terms ? 'terms-row-error' : ''}`}>
+          <input
+            type="checkbox"
+            name="terms"
+            checked={formData.terms}
+            onChange={handleChange}
+          />
+          <span>
+            Acepto los <a href="#terminos">Términos y Condiciones</a> y la <a href="#privacidad">Política de Privacidad</a>
+          </span>
+        </label>
+
+        <button type="submit" className="modern-submit" disabled={loading}>
+          {loading ? 'Creando cuenta...' : 'Crear cuenta'}
+        </button>
+
+       
+        <p className="auth-switch modern-switch">
+          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+        </p>
+      </form>
+    </section>
   );
 };

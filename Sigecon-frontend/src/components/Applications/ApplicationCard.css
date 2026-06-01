@@ -80,7 +80,7 @@
 }
 
 .app-score {
-  background-color: #fef3c7;
+  background-color: var(--warning-soft);
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
   text-align: center;

@@ -52,7 +52,7 @@ export const CandidateResumePage = () => {
           </Card>
         </div>
       ) : (
-        <ResumeView resume={resume} editable={true} />
+        <ResumeView resume={resume} editable={true} onEdit={() => setIsEditing(true)} />
       )}
     </div>
   );

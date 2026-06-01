@@ -81,9 +81,13 @@ export const mockApplications = [
 export const mockCandidateResume = {
   id: 1,
   fullName: 'Juan Pérez García',
+  title: 'Ingeniero de Software Senior',
   email: 'juan.perez@email.com',
   phone: '3001234567',
   location: 'Bogotá, Colombia',
+  linkedin: 'https://www.linkedin.com/in/juanperez',
+  website: 'https://juanperez.dev',
+  languages: 'Español, Inglés',
   professionalSummary:
     'Ingeniero de Software con 7 años de experiencia en desarrollo de aplicaciones web y móviles. Experto en React, Node.js y arquitectura de microservicios.',
   experience: [

@@ -1,0 +1,18 @@
+<svg width="360" height="100" viewBox="0 0 360 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#49C5B0"/>
+      <stop offset="100%" stop-color="#0E5F67"/>
+    </linearGradient>
+    <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5CD6C0"/>
+      <stop offset="100%" stop-color="#0A5A63"/>
+    </linearGradient>
+  </defs>
+  <path d="M60 10L10 35V65L60 90L110 65V35L60 10Z" fill="url(#logoGradient)" stroke="#0E5F67" stroke-width="4"/>
+  <path d="M40 18L30 24L70 43L80 37L40 18Z" fill="url(#barGradient)"/>
+  <path d="M45 44L35 50L85 65L95 59L45 44Z" fill="url(#barGradient)"/>
+  <path d="M50 70L40 76L95 90L105 84L50 70Z" fill="url(#barGradient)"/>
+  <text x="130" y="45" fill="#0E5F67" font-family="Inter, sans-serif" font-size="38" font-weight="700">SIGE<tspan fill="#49C5B0">CON</tspan></text>
+  <text x="130" y="74" fill="#5D7C7A" font-family="Inter, sans-serif" font-size="14" letter-spacing="0.16em">GESTIÓN DE CONTRATACIÓN</text>
+</svg>

@@ -46,23 +46,23 @@
 }
 
 .stat-card-primary .stat-icon {
-  background-color: #eff6ff;
-  color: var(--primary);
+  background-color: var(--primary-soft);
+  color: var(--primary-dark);
 }
 
 .stat-card-secondary .stat-icon {
-  background-color: #faf5ff;
-  color: var(--secondary);
+  background-color: var(--secondary-soft);
+  color: var(--secondary-dark);
 }
 
 .stat-card-warning .stat-icon {
-  background-color: #fffbeb;
-  color: var(--warning);
+  background-color: var(--warning-soft);
+  color: var(--warning-dark);
 }
 
 .stat-card-success .stat-icon {
-  background-color: #f0fdf4;
-  color: var(--success);
+  background-color: var(--success-soft);
+  color: var(--success-dark);
 }
 
 .stat-content {

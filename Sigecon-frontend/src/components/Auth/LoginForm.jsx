@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Briefcase, Eye, Linkedin, LockKeyhole, Mail, ShieldCheck, Users } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { Button } from '../Common/Button';
-import { Input } from '../Common/Input';
 import { Alert } from '../Common/Alert';
+import logoImage from '../../assets/sigecon-logo.svg';
 import '../Auth/LoginForm.css';
 
 const roleHome = {
@@ -13,9 +13,35 @@ const roleHome = {
   aspirant: '/aspirant/dashboard',
 };
 
+const loginBenefits = [
+  {
+    icon: ShieldCheck,
+    title: 'Seguro y confiable',
+    text: 'Protegemos tu informacion y tus datos.',
+  },
+  {
+    icon: Users,
+    title: 'Miles de oportunidades',
+    text: 'Encuentra el trabajo ideal para ti.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Facil y rapido',
+    text: 'Publica empleos y gestiona candidatos en minutos.',
+  },
+];
+
+const demoUsers = [
+  { label: 'Administrador', email: 'admin@sigecon.com' },
+  { label: 'Reclutador', email: 'hr@sigecon.com' },
+  { label: 'Evaluador', email: 'evaluador@sigecon.com' },
+  { label: 'Aspirante', email: 'aspirante@sigecon.com' },
+];
+
 export const LoginForm = () => {
-  const [email, setEmail] = useState('admin@sigecon.com');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -40,62 +66,147 @@ export const LoginForm = () => {
     }
   };
 
+  const handleQuickLogin = async (demoEmail) => {
+    setError('');
+    setLoading(true);
+
+    try {
+      const result = login(demoEmail, 'password123');
+      if (result.success) {
+        navigate(roleHome[result.user?.role] || '/dashboard');
+      } else {
+        setError(result.error || 'Error en el login');
+      }
+    } catch {
+      setError('Error en el servidor');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="login-form">
-      <div className="form-header">
-        <span className="auth-eyebrow">Acceso seguro</span>
-        <h1>SIGECON</h1>
-        <p>Sistema de Gestion de Contratacion</p>
+    <section className="login-showcase">
+      <aside className="login-visual" aria-hidden="true">
+        <div className="visual-wash" />
+        <div className="visual-laptop">
+          <img src={logoImage} alt="" />
+        </div>
+        <div className="visual-plant" />
+        <span className="hexagon hexagon-top" />
+        <span className="hexagon hexagon-mid" />
+        <span className="hexagon hexagon-bottom" />
+        <span className="visual-dots" />
+      </aside>
+
+      <div className="login-content">
+        <form onSubmit={handleSubmit} className="login-form login-form-modern">
+          <div className="modern-form-header">
+            <img src={logoImage} alt="SIGECON" />
+            <h1>Inicia sesión</h1>
+            <p>Bienvenido de nuevo. Ingresa tus datos para continuar.</p>
+          </div>
+
+          {error && (
+            <Alert
+              type="error"
+              message={error}
+              onClose={() => setError('')}
+            />
+          )}
+
+          <label className="modern-field">
+            <span>Correo electrónico</span>
+            <div className="modern-input">
+              <Mail size={20} />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@correo.com"
+                required
+              />
+            </div>
+          </label>
+
+          <label className="modern-field">
+            <span>Contraseña</span>
+            <div className="modern-input">
+              <LockKeyhole size={20} />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Ingresa tu contraseña"
+                required
+              />
+              <Eye size={20} />
+            </div>
+          </label>
+
+          <div className="login-options">
+            <label>
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
+              <span>Recordarme</span>
+            </label>
+            <a href="#recuperar">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" className="modern-submit" disabled={loading}>
+            {loading ? 'Ingresando...' : 'Iniciar sesión'}
+          </button>
+
+         
+          <div className="social-buttons">
+            <button type="button">
+              <span className="google-mark">G</span>
+              Google
+            </button>
+            <button type="button">
+              <Linkedin size={20} />
+              LinkedIn
+            </button>
+          </div>
+
+          <div className="quick-login">
+            <p>Entrar como:</p>
+            <div className="quick-login-buttons">
+              {demoUsers.map((demoUser) => (
+                <button
+                  key={demoUser.email}
+                  type="button"
+                  onClick={() => handleQuickLogin(demoUser.email)}
+                  disabled={loading}
+                >
+                  {demoUser.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="auth-switch modern-switch">
+            ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
+          </p>
+        </form>
+
+        <div className="login-benefits">
+          {loginBenefits.map((benefit) => {
+            const Icon = benefit.icon;
+            return (
+              <article key={benefit.title}>
+                <Icon size={32} />
+                <div>
+                  <h2>{benefit.title}</h2>
+                  <p>{benefit.text}</p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
-
-      {error && (
-        <Alert
-          type="error"
-          message={error}
-          onClose={() => setError('')}
-        />
-      )}
-
-      <Alert
-        type="info"
-        title="Credenciales de prueba"
-        message={`Admin: admin@sigecon.com | Reclutador: hr@sigecon.com | Evaluador: evaluador@sigecon.com | Aspirante: aspirante@sigecon.com\nContrasena: password123`}
-      />
-
-      <Input
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="correo@empresa.com"
-        required
-      />
-
-      <Input
-        label="Contrasena"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Ingresa tu contrasena"
-        required
-      />
-
-      <Button
-        variant="primary"
-        size="lg"
-        fullWidth
-        loading={loading}
-      >
-        Iniciar sesion
-      </Button>
-
-      <p className="auth-switch">
-        No tienes cuenta? <Link to="/register">Crear cuenta profesional</Link>
-      </p>
-
-      <p className="footer-text">
-        2024 SIGECON - Todos los derechos reservados
-      </p>
-    </form>
+    </section>
   );
 };

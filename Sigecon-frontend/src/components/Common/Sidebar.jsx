@@ -11,7 +11,7 @@ import {
 import { useAuth } from '../../hooks/useAuth';
 import '../Common/Sidebar.css';
 
-export const Sidebar = ({ isOpen }) => {
+export const Sidebar = ({ isOpen, onLinkClick }) => {
   const { user } = useAuth();
 
   const adminLinks = [
@@ -71,6 +71,7 @@ export const Sidebar = ({ isOpen }) => {
                 <NavLink
                   to={link.path}
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                  onClick={onLinkClick}
                 >
                   <Icon size={20} />
                   <span>{link.label}</span>

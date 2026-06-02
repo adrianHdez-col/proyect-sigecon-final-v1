@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import {
   Briefcase,
   Building2,
@@ -15,16 +15,16 @@ import heroPeopleImage from '../assets/43d36123-9298-40c0-b10a-ad16065cbe9f.png'
 import '../styles/landing.css';
 
 const featuredJobs = [
-  { icon: UserCheck, title: 'Desarrollador Full Stack', company: 'Empresa Tech', type: 'Remoto' },
-  { icon: Target, title: 'Diseñador UI/UX', company: 'Creativa Studio', type: 'Híbrido' },
-  { icon: Briefcase, title: 'Analista de Datos', company: 'Data Smart', type: 'Remoto' },
+  { icon: UserCheck, title: 'Desarrollador Full Stack', company: 'Empresa Tech', tags: ['Remoto', 'Full-time'] },
+  { icon: Target, title: 'Diseñador UI/UX', company: 'Creativa Studio', tags: ['Híbrido', 'Full-time'] },
+  { icon: Briefcase, title: 'Analista de Datos', company: 'Data Smart', tags: ['Remoto', 'Full-time'] },
 ];
 
 const candidates = [
-  { name: 'Maria Lopez', role: 'Diseñadora UI/UX' },
-  { name: 'Javier Fernandez', role: 'Ingeniero de Software' },
+  { name: 'María López', role: 'Diseñadora UI/UX' },
+  { name: 'Javier Fernández', role: 'Ingeniero de Software' },
   { name: 'Camila Torres', role: 'Analista de Datos' },
-  { name: 'Andres Gomez', role: 'Product Manager' },
+  { name: 'Andrés Gómez', role: 'Product Manager' },
 ];
 
 const benefits = [
@@ -36,15 +36,15 @@ const benefits = [
 const stats = [
   { icon: Briefcase, value: '+10.000', label: 'Ofertas publicadas' },
   { icon: Users, value: '+50.000', label: 'Candidatos registrados' },
-  { icon: Building2, value: '+5.000', label: 'Empresas confian en nosotros' },
-  { icon: CheckCircle2, value: '', label: 'Contrataciones exitosas cada dia' },
+  { icon: Building2, value: '+5.000', label: 'Empresas confían en nosotros' },
+  { icon: CheckCircle2, value: null, label: 'Contrataciones exitosas cada día' },
 ];
 
 const LandingPage = () => {
   return (
     <main className="landing-page">
       <section className="landing-hero">
-        <header className="landing-header">
+        <header className="landing-header" role="banner">
           <Link to="/" className="landing-brand" aria-label="SIGECON inicio">
             <img src={logoImage} alt="SIGECON" className="landing-logo" />
           </Link>
@@ -58,7 +58,7 @@ const LandingPage = () => {
 
           <div className="landing-actions">
             <Link to="/login" className="header-link">Iniciar sesión</Link>
-            <Link to="/register" className="header-button">Crear cuenta</Link>
+          
           </div>
         </header>
 
@@ -68,17 +68,17 @@ const LandingPage = () => {
               Encuentra al <span>talento ideal</span> para tu empresa
             </h1>
             <p>
-              Publica tus ofertas de trabajo y conecta con miles de profesionales listos para un nuevo desafio.
+              Publica tus ofertas de trabajo y conecta con miles de profesionales listos para un nuevo desafío.
             </p>
 
             <Link to="/register" className="publish-cta" id="publicar">
-              <span>
-                <Briefcase size={28} />
+              <span className="cta-icon">
+                <Briefcase size={22} />
               </span>
-              <strong>
-                Publicar empleo
-                <small>Es rapido y sencillo</small>
-              </strong>
+              <span className="cta-text">
+                <strong>Publicar empleo</strong>
+                <small>Es rápido y sencillo</small>
+              </span>
             </Link>
 
             <div className="benefit-row" id="empresas">
@@ -86,75 +86,25 @@ const LandingPage = () => {
                 const Icon = benefit.icon;
                 return (
                   <article className="benefit-item" key={benefit.title}>
+                    <span className="benefit-icon">
+                      <Icon size={22} />
+                    </span>
                     <div>
-                      <Icon size={30} />
+                      <h3>{benefit.title}</h3>
+                      <p>{benefit.text}</p>
                     </div>
-                    <h3>{benefit.title}</h3>
-                    <p>{benefit.text}</p>
                   </article>
                 );
               })}
             </div>
           </div>
 
-          <div className="hero-visual" id="buscar" aria-label="Vista previa de busqueda de talento">
-            <div className="teal-shape" />
+          <div className="hero-visual" id="buscar" aria-label="Vista previa">
+            <div className="hero-shape" />
             <div className="dot-pattern" />
 
-            <div className="search-card">
-              <Search size={18} />
-              <span>Buscar empleos, empresas o palabras clave...</span>
-              <Search size={18} />
-            </div>
-
-            <article className="jobs-card floating-card">
-              <h2>Ofertas destacadas</h2>
-              <div className="card-divider" />
-              {featuredJobs.map((job) => {
-                const Icon = job.icon;
-                return (
-                  <div className="job-row" key={job.title}>
-                    <span className="job-icon">
-                      <Icon size={20} />
-                    </span>
-                    <div>
-                      <strong>{job.title}</strong>
-                      <small>{job.company}</small>
-                      <em>{job.type}</em>
-                    </div>
-                  </div>
-                );
-              })}
-              <a href="#candidatos">Ver todas las ofertas</a>
-            </article>
-
-            <article className="profile-card floating-card">
-              <div className="profile-photo">CM</div>
-              <h2>Carlos Martinez</h2>
-              <strong>Desarrollador Full Stack</strong>
-              <p>5 años de experiencia</p>
-              <span>React · Node.js · SQL · MongoDB</span>
-              <Link to="/login">Ver perfil</Link>
-            </article>
-
-            <article className="candidates-card floating-card" id="candidatos">
-              <h2>Candidatos recomendados</h2>
-              <div className="card-divider" />
-              {candidates.map((candidate) => (
-                <div className="candidate-row" key={candidate.name}>
-                  <span>{candidate.name.split(' ').map((part) => part[0]).join('')}</span>
-                  <div>
-                    <strong>{candidate.name}</strong>
-                    <small>{candidate.role}</small>
-                  </div>
-                  <Star size={15} fill="currentColor" />
-                </div>
-              ))}
-              <a href="#candidatos">Ver todos los candidatos</a>
-            </article>
-
-            <div className="people-scene" aria-hidden="true">
-              <img src={heroPeopleImage} alt="" className="hero-people-image" />
+            <div className="people-scene">
+              <img src={heroPeopleImage} alt="Profesionales trabajando juntos en una laptop" className="hero-people-image" />
             </div>
           </div>
         </div>
@@ -164,7 +114,7 @@ const LandingPage = () => {
             const Icon = stat.icon;
             return (
               <article key={stat.label}>
-                <Icon size={36} />
+                <Icon size={34} strokeWidth={1.5} />
                 <div>
                   {stat.value && <strong>{stat.value}</strong>}
                   <span>{stat.label}</span>

@@ -11,7 +11,7 @@ import {
   Users,
 } from 'lucide-react';
 import logoImage from '../assets/sigecon-logo.svg';
-import heroPeopleImage from '../assets/43d36123-9298-40c0-b10a-ad16065cbe9f.png';
+import heroPeopleImage from '../assets/SIGECON.png';
 import '../styles/landing.css';
 
 const featuredJobs = [

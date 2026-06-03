@@ -839,6 +839,56 @@
   background: #086561;
 }
 
+/* Imagen principal de SIGECON */
+.hero-visual {
+  min-height: 520px;
+  padding: 1rem 0;
+}
+
+.people-scene {
+  position: relative;
+  inset: auto;
+  transform: none;
+  width: min(680px, 100%);
+  height: auto;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 26, 46, 0.18);
+}
+
+.hero-people-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.23 / 1;
+  object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .hero-visual {
+    min-height: auto;
+    height: auto;
+    justify-content: center;
+  }
+
+  .people-scene {
+    width: min(620px, 100%);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-visual {
+    display: flex;
+    margin-top: 1rem;
+  }
+
+  .people-scene {
+    margin-top: 0;
+    border-radius: 14px;
+  }
+}
+
 .landing-page {
   width: 100%;
   overflow-x: hidden;

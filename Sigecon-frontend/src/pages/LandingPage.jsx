@@ -3,29 +3,13 @@ import {
   Briefcase,
   Building2,
   CheckCircle2,
-  Search,
   ShieldCheck,
-  Star,
   Target,
-  UserCheck,
   Users,
 } from 'lucide-react';
 import logoImage from '../assets/sigecon-logo.svg';
-import heroPeopleImage from '../assets/SIGECON.png';
+import heroImage from '../assets/SIGECON1.png';
 import '../styles/landing.css';
-
-const featuredJobs = [
-  { icon: UserCheck, title: 'Desarrollador Full Stack', company: 'Empresa Tech', tags: ['Remoto', 'Full-time'] },
-  { icon: Target, title: 'Diseñador UI/UX', company: 'Creativa Studio', tags: ['Híbrido', 'Full-time'] },
-  { icon: Briefcase, title: 'Analista de Datos', company: 'Data Smart', tags: ['Remoto', 'Full-time'] },
-];
-
-const candidates = [
-  { name: 'María López', role: 'Diseñadora UI/UX' },
-  { name: 'Javier Fernández', role: 'Ingeniero de Software' },
-  { name: 'Camila Torres', role: 'Analista de Datos' },
-  { name: 'Andrés Gómez', role: 'Product Manager' },
-];
 
 const benefits = [
   { icon: Users, title: 'Miles de candidatos', text: 'Encuentra el perfil que necesitas' },
@@ -58,7 +42,7 @@ const LandingPage = () => {
 
           <div className="landing-actions">
             <Link to="/login" className="header-link">Iniciar sesión</Link>
-          
+            <Link to="/register" className="header-button">Crear cuenta</Link>
           </div>
         </header>
 
@@ -76,7 +60,7 @@ const LandingPage = () => {
                 <Briefcase size={22} />
               </span>
               <span className="cta-text">
-                <strong>Buscar empleo</strong>
+                <strong>Publicar empleo</strong>
                 <small>Es rápido y sencillo</small>
               </span>
             </Link>
@@ -99,13 +83,8 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="hero-visual" id="buscar" aria-label="Vista previa">
-            <div className="hero-shape" />
-            <div className="dot-pattern" />
-
-            <div className="people-scene">
-              <img src={heroPeopleImage} alt="Profesionales trabajando juntos en una laptop" className="hero-people-image" />
-            </div>
+          <div className="hero-visual" id="buscar" aria-label="Imagen principal de SIGECON">
+            <img src={heroImage} alt="Vista de ofertas, candidatos y profesionales en SIGECON" className="hero-main-image" />
           </div>
         </div>
 

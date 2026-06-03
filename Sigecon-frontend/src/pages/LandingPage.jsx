@@ -76,7 +76,7 @@ const LandingPage = () => {
                 <Briefcase size={22} />
               </span>
               <span className="cta-text">
-                <strong>Publicar empleo</strong>
+                <strong>Buscar empleo</strong>
                 <small>Es rápido y sencillo</small>
               </span>
             </Link>

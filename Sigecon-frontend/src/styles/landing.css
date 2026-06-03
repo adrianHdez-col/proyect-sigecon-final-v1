@@ -291,8 +291,7 @@
 
 .hero-visual {
   position: relative;
-  height: 800px;
-
+  height: auto;
   min-height: 560px;
   display: flex;
   align-items: flex-start;

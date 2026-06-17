@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Briefcase, Eye, Linkedin, LockKeyhole, Mail, ShieldCheck, Users } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { Alert } from '../Common/Alert';
-import logoImage from '../../assets/sigecon-logo.svg';
+import logoImage from '../../assets/log.png';
 import '../Auth/LoginForm.css';
 
 const roleHome = {
@@ -101,7 +101,9 @@ export const LoginForm = () => {
       <div className="login-content">
         <form onSubmit={handleSubmit} className="login-form login-form-modern">
           <div className="modern-form-header">
-            <img src={logoImage} alt="SIGECON" />
+            <span className="login-brand-frame">
+              <img src={logoImage} alt="SIGECON" />
+            </span>
             <h1>Inicia sesión</h1>
             <p>Bienvenido de nuevo. Ingresa tus datos para continuar.</p>
           </div>

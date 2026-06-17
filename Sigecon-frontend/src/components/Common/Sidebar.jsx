@@ -27,20 +27,22 @@ export const Sidebar = ({ isOpen, onLinkClick }) => {
     { icon: Briefcase, label: 'Vacantes', path: '/recruiter/vacancies' },
     { icon: FileText, label: 'Crear vacante', path: '/recruiter/vacancy-form' },
     { icon: Users, label: 'Candidatos', path: '/recruiter/applicants' },
+    { icon: Settings, label: 'Configuracion', path: '/recruiter/settings' },
   ];
 
   const evaluatorLinks = [
     { icon: BarChart3, label: 'Dashboard', path: '/evaluator/dashboard' },
     { icon: Brain, label: 'Pruebas', path: '/evaluator/tests' },
     { icon: CheckSquare, label: 'Revisiones', path: '/evaluator/applications' },
+    { icon: Settings, label: 'Configuracion', path: '/evaluator/settings' },
   ];
 
   const aspirantLinks = [
-    { icon: BarChart3, label: 'Mi panel', path: '/aspirant/dashboard' },
     { icon: Briefcase, label: 'Vacantes', path: '/aspirant/vacancies' },
     { icon: FileText, label: 'Hoja de vida', path: '/aspirant/resume' },
     { icon: CheckSquare, label: 'Postulaciones', path: '/aspirant/my-applications' },
     { icon: Brain, label: 'Pruebas', path: '/aspirant/my-evaluations' },
+    { icon: Settings, label: 'Configuracion', path: '/aspirant/settings' },
   ];
 
   const getLinks = () => {

@@ -80,7 +80,10 @@
 }
 
 .visual-laptop img {
-  width: 52px;
+  width: 86px;
+  height: 46px;
+  object-fit: cover;
+  object-position: center;
   opacity: 0.58;
 }
 
@@ -194,6 +197,25 @@
   width: min(300px, 82%);
   height: auto;
   margin-bottom: 2rem;
+}
+
+.login-brand-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(360px, 92%);
+  height: 116px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.login-brand-frame img {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .modern-form-header h1 {
@@ -490,6 +512,33 @@
   box-shadow: 0 24px 70px rgba(15, 48, 43, 0.09);
 }
 
+.register-showcase-wide {
+  position: relative;
+  width: 100%;
+  align-items: start;
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(1rem, 2.4vw, 2rem);
+  overflow: hidden;
+  place-items: start center;
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(133, 221, 211, 0.28), transparent 28%),
+    radial-gradient(circle at 88% 0%, rgba(255, 255, 255, 0.2), transparent 24%),
+    linear-gradient(135deg, #073b45 0%, #075e68 44%, #0ca8a3 100%);
+  box-shadow: none;
+}
+
+.register-showcase-wide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent 36%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 16px);
+  pointer-events: none;
+}
+
 .register-card {
   display: flex;
   flex-direction: column;
@@ -498,8 +547,64 @@
   padding: clamp(2rem, 4vw, 4.2rem) clamp(1.2rem, 6vw, 7rem);
 }
 
+.register-card-wide {
+  position: relative;
+  z-index: 1;
+  width: min(1320px, 100%);
+  gap: 1.35rem;
+  padding: clamp(1.25rem, 2vw, 1.8rem);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(247, 252, 252, 0.96)),
+    #ffffff;
+  box-shadow: 0 30px 90px rgba(1, 38, 45, 0.26);
+}
+
 .register-header {
   margin-bottom: 1.3rem;
+}
+
+.register-header-compact {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.register-header-compact h1 {
+  color: #073b45;
+  font-size: clamp(2.1rem, 3vw, 2.9rem);
+  letter-spacing: 0;
+}
+
+.register-header-compact p {
+  max-width: 760px;
+  color: #53707c;
+  font-weight: 700;
+}
+
+.register-brand {
+  display: grid;
+  width: min(520px, 100%);
+  height: clamp(120px, 14vw, 165px);
+  place-items: center;
+  padding: clamp(1rem, 2vw, 1.45rem);
+  overflow: hidden;
+  border: 1px solid rgba(7, 59, 69, 0.1);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 15% 18%, rgba(90, 197, 176, 0.12), transparent 25%),
+    linear-gradient(180deg, #ffffff, #fbfefe);
+  box-shadow: 0 18px 42px rgba(7, 59, 69, 0.08);
+}
+
+.register-brand img {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .register-header img {
@@ -515,6 +620,241 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.6rem;
+}
+
+.register-grid-company {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(170px, 0.52fr);
+}
+
+.register-grid-span-2 {
+  grid-column: span 2;
+}
+
+.register-grid-access {
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.82fr) minmax(240px, 0.82fr);
+}
+
+.account-type-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  width: min(780px, 100%);
+  margin: 0.25rem auto 0;
+}
+
+.account-type-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 82px;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid #d5e3e6;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, #ffffff, #fbfefe);
+  color: #073b45;
+  text-align: left;
+  box-shadow: 0 12px 28px rgba(7, 59, 69, 0.06);
+}
+
+.account-type-tabs button.active {
+  border-color: #08a5a3;
+  background:
+    linear-gradient(135deg, rgba(232, 250, 247, 0.98), rgba(255, 255, 255, 0.98));
+  color: #075e68;
+  box-shadow: 0 0 0 4px rgba(8, 165, 163, 0.12), 0 16px 34px rgba(7, 95, 105, 0.1);
+}
+
+.account-type-tabs button svg {
+  width: 44px;
+  height: 44px;
+  padding: 0.55rem;
+  border-radius: 12px;
+  background: #eef8f7;
+  color: #0a7f80;
+}
+
+.account-type-tabs strong,
+.account-type-tabs small {
+  display: block;
+}
+
+.account-type-tabs strong {
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.account-type-tabs small {
+  margin-top: 0.2rem;
+  color: #60798a;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.registration-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid #d8e6eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 18px 42px rgba(7, 59, 69, 0.08);
+}
+
+.register-card-wide > .registration-panel,
+.register-card-wide > .register-section-flat,
+.register-card-wide > .modern-submit,
+.register-card-wide > .register-empty-state {
+  width: min(1120px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-empty-state {
+  display: grid;
+  place-items: center;
+  gap: 0.45rem;
+  min-height: 190px;
+  padding: 2rem;
+  border: 1.5px dashed #b8d4d8;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(239, 250, 249, 0.88), rgba(255, 255, 255, 0.96));
+  color: #60798a;
+  text-align: center;
+}
+
+.register-empty-state strong {
+  color: #073b45;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.register-empty-state span {
+  font-weight: 700;
+}
+
+.register-section {
+  position: relative;
+  padding: 1.35rem 1.2rem 1.45rem;
+  border-bottom: 1px solid #e0eaed;
+}
+
+.register-section:last-child {
+  border-bottom: 0;
+}
+
+.register-section-flat {
+  overflow: hidden;
+  border: 1px solid #d8e6eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 18px 42px rgba(7, 59, 69, 0.08);
+}
+
+.register-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1.05rem;
+  color: #0a8f8b;
+}
+
+.register-section-title h2 {
+  margin: 0;
+  color: #073b45;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.register-section .modern-field > span {
+  color: #123f4b;
+  font-size: 0.76rem;
+}
+
+.register-section .modern-input {
+  min-height: 44px;
+  border-color: #d4e2e7;
+  border-radius: 8px;
+  background: #fbfefe;
+}
+
+.modern-input select,
+.modern-input textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: #113f4b;
+  font: inherit;
+  box-shadow: none;
+}
+
+.modern-input textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+
+.modern-input-textarea {
+  align-items: flex-start;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.register-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  height: 100%;
+  min-height: 132px;
+  color: #1f2f58;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.register-grid .register-upload {
+  min-height: 42px;
+}
+
+.register-upload > div {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.35rem;
+  height: 100%;
+  min-height: 110px;
+  padding: 0.9rem;
+  border: 1.5px dashed #c9d3e4;
+  border-radius: 8px;
+  background: #fbfefe;
+  color: #0a8f8b;
+  text-align: center;
+}
+
+.register-upload strong {
+  color: #123f4b;
+  font-size: 0.78rem;
+}
+
+.register-upload small {
+  color: #657192;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.register-upload button {
+  min-height: 32px;
+  margin-top: 0.35rem;
+  padding: 0 0.75rem;
+  border-radius: 6px;
+  background: #e8f8f6;
+  color: #075e68;
+  font-size: 0.72rem;
+  font-weight: 900;
 }
 
 .terms-row {
@@ -604,7 +944,26 @@
     grid-template-columns: 1fr;
   }
 
+  .register-showcase-wide {
+    width: 100%;
+    padding: 0;
+  }
+
+  .register-grid-company,
+  .register-grid-access,
+  .account-type-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .register-grid-span-2 {
+    grid-column: auto;
+  }
+
   .register-card {
     padding: 2rem 1rem;
+  }
+
+  .register-card-wide {
+    padding: 1.25rem 1rem;
   }
 }

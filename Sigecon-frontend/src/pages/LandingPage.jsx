@@ -7,7 +7,7 @@ import {
   Target,
   Users,
 } from 'lucide-react';
-import logoImage from '../assets/sigecon-logo.svg';
+import logoImage from '../assets/log.png';
 import heroImage from '../assets/SIGECON1.png';
 import '../styles/landing.css';
 

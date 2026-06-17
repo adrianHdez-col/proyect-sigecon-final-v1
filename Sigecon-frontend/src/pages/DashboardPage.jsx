@@ -1,5 +1,22 @@
-import { Link } from 'react-router-dom';
-import { Award, Briefcase, CheckCircle2, ClipboardCheck, Settings, ShieldCheck, Users } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  Activity,
+  Award,
+  BarChart3,
+  Bell,
+  Briefcase,
+  CheckCircle2,
+  ClipboardCheck,
+  KeyRound,
+  Mail,
+  Phone,
+  Save,
+  Settings,
+  ShieldCheck,
+  TrendingUp,
+  UserCog,
+  Users,
+} from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { DashboardStats } from '../components/Dashboard/StatCard';
 import { Card, CardBody, CardHeader } from '../components/Common/Card';
@@ -56,9 +73,474 @@ const roleDashboards = {
 
 const getDashboardConfig = (role) => roleDashboards[role] || roleDashboards.aspirant;
 
+const adminUsers = [
+  {
+    name: 'Laura Mendoza',
+    email: 'laura.mendoza@sigecon.com',
+    role: 'Reclutador',
+    area: 'Talento humano',
+    status: 'Activo',
+    lastAccess: 'Hoy, 9:42 a.m.',
+  },
+  {
+    name: 'Camilo Rojas',
+    email: 'camilo.rojas@sigecon.com',
+    role: 'Reclutador',
+    area: 'Seleccion',
+    status: 'Activo',
+    lastAccess: 'Ayer, 4:18 p.m.',
+  },
+  {
+    name: 'Diana Torres',
+    email: 'diana.torres@sigecon.com',
+    role: 'Evaluador',
+    area: 'Pruebas tecnicas',
+    status: 'Pendiente',
+    lastAccess: 'Invitacion enviada',
+  },
+  {
+    name: 'Andres Pena',
+    email: 'andres.pena@sigecon.com',
+    role: 'Aspirante',
+    area: 'Portal externo',
+    status: 'Activo',
+    lastAccess: '13 Jun, 2:07 p.m.',
+  },
+];
+
+const monthlyApplications = [
+  { month: 'Ene', total: 18 },
+  { month: 'Feb', total: 26 },
+  { month: 'Mar', total: 21 },
+  { month: 'Abr', total: 34 },
+  { month: 'May', total: 29 },
+  { month: 'Jun', total: 42 },
+];
+
+const funnelStages = [
+  { label: 'Postulados', value: 86, tone: 'primary' },
+  { label: 'En revision', value: 62, tone: 'info' },
+  { label: 'Evaluados', value: 38, tone: 'warning' },
+  { label: 'Finalistas', value: 18, tone: 'success' },
+];
+
+const roleDistribution = [
+  { label: 'Aspirantes', value: 68, color: '#5aaea6' },
+  { label: 'Reclutadores', value: 16, color: '#3758a8' },
+  { label: 'Evaluadores', value: 10, color: '#f1b77b' },
+  { label: 'Admin', value: 6, color: '#d15c57' },
+];
+
+const adminAlerts = [
+  '3 evaluaciones esperan asignacion de evaluador',
+  '2 vacantes llegan a fecha limite esta semana',
+  '1 invitacion de usuario sigue pendiente',
+];
+
+const getNameParts = (name = '') => {
+  const parts = name.trim().split(' ').filter(Boolean);
+  return {
+    firstName: parts[0] || 'Administrador',
+    lastName: parts.slice(1).join(' ') || 'SIGECON',
+  };
+};
+
+const AdminSettingsPanel = ({ user, showRegisteredUsers = false }) => {
+  const { firstName, lastName } = getNameParts(user?.name);
+
+  return (
+  <div className="admin-workspace">
+    <section className="admin-section-header">
+      <div>
+        <span className="page-eyebrow">Configuracion de cuenta</span>
+        <h2>{showRegisteredUsers ? 'Datos personales y usuarios' : 'Datos personales'}</h2>
+        <p>
+          Actualiza tus datos de contacto, cambia tu contrasena y asigna el rol correcto
+          a cada usuario registrado.
+        </p>
+      </div>
+      <button className="admin-primary-action" type="button">
+        <Save size={18} />
+        Guardar cambios
+      </button>
+    </section>
+
+    <div className="account-settings-grid">
+      <Card className="admin-card">
+        <CardHeader>
+          <h2>Actualizar datos</h2>
+        </CardHeader>
+        <CardBody>
+          <form className="settings-form">
+            <label>
+              <span>Nombre</span>
+              <input type="text" value={firstName} readOnly />
+            </label>
+            <label>
+              <span>Apellidos</span>
+              <input type="text" value={lastName} readOnly />
+            </label>
+            <label>
+              <span>Correo electronico</span>
+              <div className="input-with-icon">
+                <Mail size={18} />
+                <input type="email" defaultValue={user?.email || 'admin@sigecon.com'} />
+              </div>
+            </label>
+            <label>
+              <span>Telefono</span>
+              <div className="input-with-icon">
+                <Phone size={18} />
+                <input type="tel" placeholder="300 000 0000" />
+              </div>
+            </label>
+          </form>
+        </CardBody>
+      </Card>
+
+      <Card className="admin-card">
+        <CardHeader>
+          <h2>Cambiar contrasena</h2>
+        </CardHeader>
+        <CardBody>
+          <form className="settings-form settings-form-single">
+            <label>
+              <span>Contrasena actual</span>
+              <input type="password" placeholder="Ingresa tu contrasena actual" />
+            </label>
+            <label>
+              <span>Nueva contrasena</span>
+              <input type="password" placeholder="Minimo 8 caracteres" />
+            </label>
+            <label>
+              <span>Confirmar contrasena</span>
+              <input type="password" placeholder="Repite la nueva contrasena" />
+            </label>
+          </form>
+        </CardBody>
+      </Card>
+    </div>
+
+    {showRegisteredUsers && (
+      <Card className="admin-card">
+        <CardHeader>
+          <h2>Usuarios registrados</h2>
+        </CardHeader>
+        <CardBody>
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Ultimo acceso</th>
+                </tr>
+              </thead>
+              <tbody>
+                {adminUsers.map((adminUser) => (
+                  <tr key={adminUser.email}>
+                    <td>
+                      <div className="user-cell">
+                        <span>{adminUser.name.charAt(0)}</span>
+                        <div>
+                          <strong>{adminUser.name}</strong>
+                          <small>{adminUser.area}</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{adminUser.email}</td>
+                    <td>
+                      <select defaultValue={adminUser.role} aria-label={`Rol de ${adminUser.name}`}>
+                        <option>Reclutador</option>
+                        <option>Evaluador</option>
+                        <option>Aspirante</option>
+                      </select>
+                    </td>
+                    <td>
+                      <span className={`admin-status ${adminUser.status === 'Activo' ? 'active' : 'pending'}`}>
+                        {adminUser.status}
+                      </span>
+                    </td>
+                    <td>{adminUser.lastAccess}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardBody>
+      </Card>
+    )}
+  </div>
+  );
+};
+
+const AdminUsersPanel = () => (
+  <div className="admin-workspace">
+    <section className="admin-section-header">
+      <div>
+        <span className="page-eyebrow">Gestion de usuarios</span>
+        <h2>Control de cuentas y perfiles</h2>
+        <p>
+          Administra usuarios internos, cambia roles y revisa actividad reciente desde una
+          vista mas operativa.
+        </p>
+      </div>
+      <button className="admin-primary-action" type="button">
+        <UserCog size={18} />
+        Nuevo usuario
+      </button>
+    </section>
+
+    <div className="admin-metrics">
+      <div>
+        <span>Usuarios activos</span>
+        <strong>49</strong>
+      </div>
+      <div>
+        <span>Roles configurados</span>
+        <strong>4</strong>
+      </div>
+      <div>
+        <span>Invitaciones pendientes</span>
+        <strong>3</strong>
+      </div>
+    </div>
+
+    <Card className="admin-card">
+      <CardHeader>
+        <h2>Usuarios del sistema</h2>
+      </CardHeader>
+      <CardBody>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Area</th>
+                <th>Estado</th>
+                <th>Ultimo acceso</th>
+                <th>Permisos</th>
+              </tr>
+            </thead>
+            <tbody>
+              {adminUsers.map((adminUser) => (
+                <tr key={adminUser.email}>
+                  <td>
+                    <div className="user-cell">
+                      <span>{adminUser.name.charAt(0)}</span>
+                      <div>
+                        <strong>{adminUser.name}</strong>
+                        <small>{adminUser.email}</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <select defaultValue={adminUser.role} aria-label={`Rol de ${adminUser.name}`}>
+                      <option>Administrador</option>
+                      <option>Reclutador</option>
+                      <option>Evaluador</option>
+                      <option>Aspirante</option>
+                    </select>
+                  </td>
+                  <td>{adminUser.area}</td>
+                  <td>
+                    <span className={`admin-status ${adminUser.status === 'Activo' ? 'active' : 'pending'}`}>
+                      {adminUser.status}
+                    </span>
+                  </td>
+                  <td>{adminUser.lastAccess}</td>
+                  <td>
+                    <button className="icon-action" type="button" title="Editar permisos">
+                      <KeyRound size={17} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CardBody>
+    </Card>
+  </div>
+);
+
+const AdminOverviewPanel = ({ config, stats }) => (
+  <>
+    <DashboardStats stats={stats} />
+
+    <div className="admin-command-grid">
+      {config.actions.map((action) => {
+        const Icon = action.icon;
+        return (
+          <Link to={action.path} className="admin-command" key={action.label}>
+            <span className="quick-action-icon">
+              <Icon size={20} />
+            </span>
+            <span>{action.label}</span>
+            <small>Administrar</small>
+          </Link>
+        );
+      })}
+    </div>
+
+    <section className="admin-analytics-grid">
+      <Card className="admin-card analytics-card analytics-card-wide">
+        <CardHeader className="analytics-card-header">
+          <div>
+            <span className="page-eyebrow">Rendimiento mensual</span>
+            <h2>Postulaciones recibidas</h2>
+          </div>
+          <span className="analytics-badge">
+            <TrendingUp size={16} />
+            +24%
+          </span>
+        </CardHeader>
+        <CardBody>
+          <div className="bar-chart" aria-label="Grafica de postulaciones mensuales">
+            {monthlyApplications.map((item) => (
+              <div className="bar-chart-item" key={item.month}>
+                <span>{item.total}</span>
+                <div
+                  className="bar-chart-bar"
+                  style={{ '--bar-height': `${(item.total / 42) * 100}%` }}
+                />
+                <small>{item.month}</small>
+              </div>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+
+      <Card className="admin-card analytics-card">
+        <CardHeader className="analytics-card-header">
+          <div>
+            <span className="page-eyebrow">Usuarios</span>
+            <h2>Distribucion por rol</h2>
+          </div>
+          <BarChart3 size={20} />
+        </CardHeader>
+        <CardBody>
+          <div className="role-donut-wrap">
+            <div className="role-donut" aria-label="Grafica circular de roles">
+              <strong>49</strong>
+              <span>usuarios</span>
+            </div>
+            <div className="donut-legend">
+              {roleDistribution.map((item) => (
+                <div className="donut-legend-item" key={item.label}>
+                  <span style={{ backgroundColor: item.color }} />
+                  <p>{item.label}</p>
+                  <strong>{item.value}%</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+    </section>
+
+    <section className="admin-operations-grid">
+      <Card className="admin-card">
+        <CardHeader>
+          <h2>Embudo de seleccion</h2>
+        </CardHeader>
+        <CardBody>
+          <div className="funnel-list">
+            {funnelStages.map((stage) => (
+              <div className="funnel-row" key={stage.label}>
+                <div>
+                  <strong>{stage.label}</strong>
+                  <span>{stage.value} procesos</span>
+                </div>
+                <div className="funnel-track">
+                  <span
+                    className={`funnel-fill funnel-fill-${stage.tone}`}
+                    style={{ width: `${stage.value}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+
+      <Card className="admin-card">
+        <CardHeader>
+          <h2>Alertas ejecutivas</h2>
+        </CardHeader>
+        <CardBody>
+          <div className="admin-alert-list">
+            {adminAlerts.map((alert) => (
+              <div className="admin-alert-item" key={alert}>
+                <span>
+                  <Bell size={16} />
+                </span>
+                <p>{alert}</p>
+              </div>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+    </section>
+
+    <div className="dashboard-grid">
+      <Card>
+        <CardHeader>
+          <h2>Vacantes prioritarias</h2>
+        </CardHeader>
+        <CardBody>
+          <div className="vacancies-grid">
+            {mockVacancies.slice(0, 3).map(vacancy => (
+              <VacancyCard
+                key={vacancy.id}
+                vacancy={vacancy}
+                onView={(id) => console.log('View vacancy', id)}
+                showActions={false}
+              />
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <h2>Pipeline reciente</h2>
+        </CardHeader>
+        <CardBody>
+          <div className="pipeline-list">
+            {mockApplications.map((application) => (
+              <div className="pipeline-item" key={application.id}>
+                <div>
+                  <strong>{application.candidateName}</strong>
+                  <span>{statusLabels[application.status]}</span>
+                </div>
+                <small className={`status-pill ${application.score ? 'status-pill-success' : 'status-pill-warning'}`}>
+                  {application.score ? `${application.score}%` : 'Pendiente'}
+                </small>
+              </div>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  </>
+);
+
 export const DashboardPage = () => {
   const { user } = useAuth();
+  const location = useLocation();
   const config = getDashboardConfig(user?.role);
+  const isAdmin = user?.role === 'admin';
+  const isAdminUsers = isAdmin && location.pathname === '/admin/users';
+  const isSettings = [
+    '/admin/settings',
+    '/recruiter/settings',
+    '/evaluator/settings',
+    '/aspirant/settings',
+  ].includes(location.pathname);
   const stats = {
     activeVacancies: mockVacancies.length,
     totalApplications: mockApplications.length,
@@ -78,65 +560,20 @@ export const DashboardPage = () => {
           <span>Sesion activa</span>
           <strong>{user?.name}</strong>
           <small>{user?.profile}</small>
+          {isAdmin && (
+            <div className="admin-health">
+              <Activity size={16} />
+              Sistema operativo
+            </div>
+          )}
         </div>
       </section>
 
-      <DashboardStats stats={stats} />
-
-      <div className="quick-actions">
-        {config.actions.map((action) => {
-          const Icon = action.icon;
-          return (
-            <Link to={action.path} className="quick-action" key={action.label}>
-              <span className="quick-action-icon">
-                <Icon size={18} />
-              </span>
-              <span>{action.label}</span>
-            </Link>
-          );
-        })}
-      </div>
-
-      <div className="dashboard-grid">
-        <Card>
-          <CardHeader>
-            <h2>Vacantes prioritarias</h2>
-          </CardHeader>
-          <CardBody>
-            <div className="vacancies-grid">
-              {mockVacancies.slice(0, 3).map(vacancy => (
-                <VacancyCard
-                  key={vacancy.id}
-                  vacancy={vacancy}
-                  onView={(id) => console.log('View vacancy', id)}
-                  showActions={false}
-                />
-              ))}
-            </div>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <h2>Pipeline reciente</h2>
-          </CardHeader>
-          <CardBody>
-            <div className="pipeline-list">
-              {mockApplications.map((application) => (
-                <div className="pipeline-item" key={application.id}>
-                  <div>
-                    <strong>{application.candidateName}</strong>
-                    <span>{statusLabels[application.status]}</span>
-                  </div>
-                  <small className={`status-pill ${application.score ? 'status-pill-success' : 'status-pill-warning'}`}>
-                    {application.score ? `${application.score}%` : 'Pendiente'}
-                  </small>
-                </div>
-              ))}
-            </div>
-          </CardBody>
-        </Card>
-      </div>
+      {isSettings && <AdminSettingsPanel user={user} showRegisteredUsers={isAdmin} />}
+      {isAdminUsers && <AdminUsersPanel />}
+      {!isSettings && !isAdminUsers && (
+        <AdminOverviewPanel config={config} stats={stats} />
+      )}
     </div>
   );
 };

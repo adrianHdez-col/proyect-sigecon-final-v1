@@ -52,9 +52,11 @@ const ProtectedLayout = () => {
         <Routes>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/evaluator/dashboard" element={<DashboardPage />} />
+          <Route path="/evaluator/settings" element={<DashboardPage />} />
           <Route path="/evaluator/tests" element={<CandidateTestsPage />} />
           <Route path="/evaluator/applications" element={<RecruiterApplicantsPage />} />
           <Route path="/aspirant/dashboard" element={<DashboardPage />} />
+          <Route path="/aspirant/settings" element={<DashboardPage />} />
           <Route path="/aspirant/vacancies" element={<CandidateVacanciesPage />} />
           <Route path="/aspirant/resume" element={<CandidateResumePage />} />
           <Route path="/aspirant/my-evaluations" element={<CandidateTestsPage />} />
@@ -68,6 +70,7 @@ const ProtectedLayout = () => {
           <Route path="/recruiter/vacancy-form" element={<RecruiterVacanciesPage />} />
           <Route path="/recruiter/applicants" element={<RecruiterApplicantsPage />} />
           <Route path="/recruiter/evaluations" element={<CandidateTestsPage />} />
+          <Route path="/recruiter/settings" element={<DashboardPage />} />
           <Route path="/admin/vacancies" element={<RecruiterVacanciesPage />} />
           <Route path="/admin/applications" element={<RecruiterApplicantsPage />} />
           <Route path="/admin/users" element={<DashboardPage />} />

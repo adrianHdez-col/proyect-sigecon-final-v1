@@ -36,14 +36,20 @@
 .landing-brand {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-width: 260px;
+  width: clamp(245px, 19vw, 330px);
+  height: clamp(74px, 6vw, 98px);
+  overflow: hidden;
   text-decoration: none;
 }
 
 .landing-logo {
   display: block;
-  width: clamp(210px, 18vw, 305px);
-  height: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .landing-nav {

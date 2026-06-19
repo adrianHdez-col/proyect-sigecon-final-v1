@@ -32,10 +32,10 @@ const loginBenefits = [
 ];
 
 const demoUsers = [
-  { label: 'Administrador', email: 'admin@sigecon.com' },
-  { label: 'Reclutador', email: 'hr@sigecon.com' },
-  { label: 'Evaluador', email: 'evaluador@sigecon.com' },
-  { label: 'Aspirante', email: 'aspirante@sigecon.com' },
+  { label: 'Super Admin', email: 'superadmin@empresa.com' },
+  { label: 'RRHH', email: 'rrhh@empresa.com' },
+  { label: 'Evaluador', email: 'psicologo@empresa.com' },
+  { label: 'Aspirante', email: 'juan.perez@example.com' },
 ];
 
 export const LoginForm = () => {
@@ -53,7 +53,7 @@ export const LoginForm = () => {
     setLoading(true);
 
     try {
-      const result = login(email, password);
+      const result = await login(email, password);
       if (result.success) {
         navigate(roleHome[result.user?.role] || '/dashboard');
       } else {
@@ -71,7 +71,7 @@ export const LoginForm = () => {
     setLoading(true);
 
     try {
-      const result = login(demoEmail, 'password123');
+      const result = await login(demoEmail, '12345678');
       if (result.success) {
         navigate(roleHome[result.user?.role] || '/dashboard');
       } else {

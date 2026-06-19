@@ -225,7 +225,7 @@ export const RegisterForm = () => {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -235,7 +235,7 @@ export const RegisterForm = () => {
     const company = isCompany ? formData.companyName : 'SIGECON';
 
     setLoading(true);
-    const result = register({
+    const result = await register({
       fullName,
       email,
       company,
@@ -246,6 +246,8 @@ export const RegisterForm = () => {
 
     if (result.success) {
       navigate(roleHome[role]);
+    } else {
+      setErrors((prev) => ({ ...prev, server: result.error }));
     }
   };
 
@@ -291,6 +293,10 @@ export const RegisterForm = () => {
 
         {hasAccountType && Object.keys(errors).filter((key) => key !== 'accountType').length > 0 && (
           <Alert type="error" message="Revisa los campos marcados para continuar." />
+        )}
+
+        {errors.server && (
+          <Alert type="error" message={errors.server} />
         )}
 
         {!hasAccountType && (

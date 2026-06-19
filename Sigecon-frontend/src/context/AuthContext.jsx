@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { AuthContext } from './authContextValue';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
 const getStoredUser = () => {
   const storedUser = localStorage.getItem('user');
   if (!storedUser) return null;
 
   try {
-    const parsedUser = JSON.parse(storedUser);
-    if (parsedUser.role === 'candidate') {
-      return { ...parsedUser, role: 'aspirant', profile: 'Aspirante' };
-    }
-    return parsedUser;
+    return JSON.parse(storedUser);
   } catch (error) {
     console.error('Error parsing stored user:', error);
     localStorage.removeItem('user');
@@ -18,72 +16,75 @@ const getStoredUser = () => {
   }
 };
 
-const roleProfiles = {
-  admin: 'Administrador',
-  recruiter: 'Reclutador',
-  evaluator: 'Evaluador',
-  aspirant: 'Aspirante',
-};
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(getStoredUser);
   const isAuthenticated = Boolean(user);
 
-  const login = (email, password) => {
-    const mockUsers = {
-      'admin@sigecon.com': {
-        id: 1,
-        email: 'admin@sigecon.com',
-        name: 'Administrador',
-        role: 'admin',
-        profile: roleProfiles.admin,
-      },
-      'hr@sigecon.com': {
-        id: 2,
-        email: 'hr@sigecon.com',
-        name: 'Gerente de RRHH',
-        role: 'recruiter',
-        profile: roleProfiles.recruiter,
-      },
-      'evaluador@sigecon.com': {
-        id: 3,
-        email: 'evaluador@sigecon.com',
-        name: 'Laura Evaluadora',
-        role: 'evaluator',
-        profile: roleProfiles.evaluator,
-      },
-      'aspirante@sigecon.com': {
-        id: 4,
-        email: 'aspirante@sigecon.com',
-        name: 'Juan Perez',
-        role: 'aspirant',
-        profile: roleProfiles.aspirant,
-      },
-    };
-
-    if (mockUsers[email] && password === 'password123') {
-      const userData = mockUsers[email];
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return { success: true, user: userData };
-    }
-
-    return { success: false, error: 'Email o contrasena invalida' };
-  };
-
-  const register = (data) => {
-    const userData = {
-      id: Date.now(),
-      email: data.email,
-      name: data.fullName,
-      role: data.role,
-      profile: roleProfiles[data.role],
-      company: data.company,
-    };
-
+  const persistUser = (userData) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
-    return { success: true };
+  };
+
+  const login = async (email, password) => {
+    try {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const payload = await response.json();
+
+      if (!response.ok) {
+        return { success: false, error: payload.message || 'Error en el login' };
+      }
+
+      const userData = {
+        id: payload.data.id,
+        email: payload.data.email,
+        fullName: payload.data.fullName,
+        role: payload.data.role,
+        company: payload.data.company,
+        token: payload.data.token,
+      };
+
+      persistUser(userData);
+      return { success: true, user: userData };
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, error: 'No se pudo conectar con el servidor' };
+    }
+  };
+
+  const register = async (data) => {
+    try {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const payload = await response.json();
+
+      if (!response.ok) {
+        return { success: false, error: payload.message || 'Error en el registro' };
+      }
+
+      const userData = {
+        id: payload.data.id,
+        email: payload.data.email,
+        fullName: payload.data.fullName,
+        role: payload.data.role,
+        company: payload.data.company,
+        token: payload.data.token,
+      };
+
+      persistUser(userData);
+      return { success: true, user: userData };
+    } catch (error) {
+      console.error('Register error:', error);
+      return { success: false, error: 'No se pudo conectar con el servidor' };
+    }
   };
 
   const logout = () => {

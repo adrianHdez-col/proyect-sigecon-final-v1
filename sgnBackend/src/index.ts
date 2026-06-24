@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -15,11 +15,36 @@ const FRONTEND_URL = process.env.FRONTEND_URL || `http://localhost:${PORT}`;
 const FRONTEND_DIST = path.resolve(process.cwd(), '../Sigecon-frontend/dist');
 const FRONTEND_INDEX = path.join(FRONTEND_DIST, 'index.html');
 
-app.use(cors({ origin: FRONTEND_URL, credentials: true }));
+const allowedOrigins = [FRONTEND_URL, 'http://localhost:5173'];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (curl, mobile, server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      console.warn('Blocked CORS origin:', origin);
+      return callback(new Error('CORS policy: Origin not allowed'), false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
-app.use('/api/auth', authRoutes);
 
 let databaseAvailable = false;
+app.use('/api', (req: Request, res: Response, next: NextFunction) => {
+  if (req.path === '/health') {
+    return next();
+  }
+
+  if (!databaseAvailable) {
+    return res.status(503).json({ message: 'Base de datos no disponible. Intenta más tarde.' });
+  }
+
+  next();
+});
+
+app.use('/api/auth', authRoutes);
 
 app.get('/api/health', (_req, res) => {
   res.json({
@@ -54,5 +79,10 @@ const startServer = async () => {
     console.log(`SIGECON backend listening on port ${PORT}`);
   });
 };
+
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error('Unhandled server error:', err);
+  res.status(500).json({ message: 'Error interno del servidor.' });
+});
 
 startServer();

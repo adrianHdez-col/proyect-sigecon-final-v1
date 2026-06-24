@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only --no-notify src/index.ts",
-    "build": "tsc -p tsconfig.build.json",
+    "build:frontend": "cross-env VITE_API_URL=http://localhost:4000 npm --prefix ../Sigecon-frontend run build",
+    "dev": "npm run build && node dist/index.js",
+    "build": "npm run build:frontend && tsc -p tsconfig.build.json",
+    "prestart": "npm run build:frontend",
     "start": "node dist/index.js"
   },
   "dependencies": {

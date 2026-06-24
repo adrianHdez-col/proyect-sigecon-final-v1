@@ -1,6 +1,6 @@
 import { db } from '../db/connection.js';
 export const getUserByEmail = async (email) => {
-    const [rows] = await db.query(`SELECT u.id, u.email, u.password_hash, u.nombre_completo, u.telefono, u.activo, r.nombre AS role
+    const [rows] = await db.query(`SELECT u.id, u.email, u.password_hash, u.nombre_completo, u.telefono, u.empresa, u.activo, r.nombre AS role
      FROM usuarios u
      JOIN roles r ON u.rol_id = r.id
      WHERE u.email = ?`, [email]);
@@ -13,6 +13,6 @@ export const createUser = async (data) => {
     if (!roleRecord) {
         throw new Error(`Role not found: ${roleName}`);
     }
-    const [result] = await db.execute('INSERT INTO usuarios (rol_id, email, password_hash, nombre_completo, telefono) VALUES (?, ?, ?, ?, ?)', [roleRecord.id, data.email, data.passwordHash, data.fullName, null]);
+    const [result] = await db.execute('INSERT INTO usuarios (rol_id, email, password_hash, nombre_completo, telefono, empresa) VALUES (?, ?, ?, ?, ?, ?)', [roleRecord.id, data.email, data.passwordHash, data.fullName, null, data.company || null]);
     return result.insertId;
 };

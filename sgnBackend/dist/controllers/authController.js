@@ -85,7 +85,7 @@ export const login = async (req, res) => {
                 fullName: user.nombre_completo,
                 email: user.email,
                 role: frontendRole,
-                company: null,
+                company: user.empresa || null,
                 token,
             },
         });

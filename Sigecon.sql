@@ -22,6 +22,7 @@ CREATE TABLE usuarios (
     password_hash VARCHAR(255) NOT NULL COMMENT 'bcrypt',
     nombre_completo VARCHAR(150) NOT NULL,
     telefono VARCHAR(20),
+    empresa VARCHAR(255) COMMENT 'Nombre de la empresa (para reclutadores o referencia del usuario)',
     activo BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

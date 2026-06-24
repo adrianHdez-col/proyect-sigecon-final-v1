@@ -110,7 +110,7 @@ export const login = async (req: Request, res: Response) => {
         fullName: user.nombre_completo,
         email: user.email,
         role: frontendRole,
-        company: null,
+        company: user.empresa || null,
         token,
       },
     });

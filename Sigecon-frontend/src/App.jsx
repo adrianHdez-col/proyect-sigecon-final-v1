@@ -13,6 +13,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { RecruiterApplicantsPage } from './pages/RecruiterApplicantsPage';
 import { RecruiterVacanciesPage } from './pages/RecruiterVacanciesPage';
+import { CompanyLoginPage } from './pages/CompanyLoginPage';
 
 const roleHome = {
   admin: '/dashboard',
@@ -109,6 +110,16 @@ const PublicRoutes = () => {
             <Navigate to={roleHome[user?.role] || '/dashboard'} replace />
           ) : (
             <LoginPage />
+          )
+        }
+      />
+            <Route
+        path="/login-empresa"
+        element={
+          isAuthenticated ? (
+            <Navigate to={roleHome[user?.role] || '/dashboard'} replace />
+          ) : (
+            <CompanyLoginPage />
           )
         }
       />

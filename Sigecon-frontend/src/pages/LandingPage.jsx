@@ -42,6 +42,10 @@ const LandingPage = () => {
 
           <div className="landing-actions">
             <Link to="/login" className="header-link">Iniciar sesión</Link>
+            <Link to="/login-empresa" className="header-link company-link">
+            <Building2 size={16} />
+            Acceso Empresas
+            </Link>
             <Link to="/register" className="header-button">Crear cuenta</Link>
           </div>
         </header>

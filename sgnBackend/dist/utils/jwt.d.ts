@@ -1,3 +1,2 @@
-import * as jwt from 'jsonwebtoken';
-export declare const signToken: (payload: object) => string;
-export declare const verifyToken: (token: string) => string | jwt.JwtPayload;
+export declare const signToken: (payload: object) => any;
+export declare const verifyToken: (token: string) => any;

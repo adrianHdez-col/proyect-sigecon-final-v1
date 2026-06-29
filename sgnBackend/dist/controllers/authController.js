@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { signToken } from '../utils/jwt.js';
 import { validateEmail, validatePassword } from '../utils/validation.js';
-import { getUserByEmail, createUser } from '../services/userService.js';
+import { getUserByEmail, createUser, AppError } from '../services/userService.js';
 const ROLE_MAP = {
     SU: 'admin',
     RRHH: 'recruiter',
@@ -56,6 +56,9 @@ export const register = async (req, res) => {
     }
     catch (error) {
         console.error('Register error:', error);
+        if (error instanceof AppError) {
+            return res.status(error.statusCode || 400).json({ message: error.message });
+        }
         return res.status(500).json({ message: 'Error interno del servidor.' });
     }
 };
@@ -85,7 +88,7 @@ export const login = async (req, res) => {
                 fullName: user.nombre_completo,
                 email: user.email,
                 role: frontendRole,
-                company: user.empresa || null,
+                company: user.empresaNombre || null,
                 token,
             },
         });

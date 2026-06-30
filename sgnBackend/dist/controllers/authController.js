@@ -18,9 +18,12 @@ const mapDbRoleToUi = (dbRole) => ROLE_MAP[dbRole] || 'aspirant';
 const mapUiRoleToDb = (uiRole) => UI_ROLE_TO_DB_ROLE[uiRole] || 'Candidato';
 export const register = async (req, res) => {
     try {
-        const { fullName, email, password, role = 'aspirant', company, } = req.body;
+        const { fullName, email, password, role = 'aspirant', company, companyName, companyNit, companyAddress, companyWebsite, companyEmail, companyPhone, } = req.body;
         if (!fullName || !email || !password) {
             return res.status(400).json({ message: 'Nombre, correo y contrasena son obligatorios.' });
+        }
+        if (role === 'recruiter' && !(companyName || company)) {
+            return res.status(400).json({ message: 'El nombre de la empresa es obligatorio para el registro de empresas.' });
         }
         if (!validateEmail(email)) {
             return res.status(400).json({ message: 'El correo no es valido.' });
@@ -40,6 +43,12 @@ export const register = async (req, res) => {
             passwordHash,
             role,
             company: company || null,
+            companyName: companyName || company || null,
+            companyNit: companyNit || null,
+            companyAddress: companyAddress || null,
+            companyWebsite: companyWebsite || null,
+            companyEmail: companyEmail || email,
+            companyPhone: companyPhone || null,
         });
         const token = signToken({ id: userId, email, role: mapDbRoleToUi(dbRole) });
         return res.status(201).json({

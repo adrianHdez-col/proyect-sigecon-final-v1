@@ -7,6 +7,7 @@ import {
   Brain,
   Settings,
   Users,
+  Activity,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import '../Common/Sidebar.css';
@@ -19,7 +20,7 @@ export const Sidebar = ({ isOpen, onLinkClick }) => {
     { icon: Users, label: 'Usuarios', path: '/admin/users' },
     { icon: Briefcase, label: 'Vacantes', path: '/admin/vacancies' },
     { icon: Users, label: 'Postulaciones', path: '/admin/applications' },
-    { icon: Settings, label: 'Configuracion', path: '/admin/settings' },
+    { icon: Settings, label: 'Configuración', path: '/admin/settings' },
   ];
 
   const recruiterLinks = [
@@ -27,14 +28,14 @@ export const Sidebar = ({ isOpen, onLinkClick }) => {
     { icon: Briefcase, label: 'Vacantes', path: '/recruiter/vacancies' },
     { icon: FileText, label: 'Crear vacante', path: '/recruiter/vacancy-form' },
     { icon: Users, label: 'Candidatos', path: '/recruiter/applicants' },
-    { icon: Settings, label: 'Configuracion', path: '/recruiter/settings' },
+    { icon: Settings, label: 'Configuración', path: '/recruiter/settings' },
   ];
 
   const evaluatorLinks = [
     { icon: BarChart3, label: 'Dashboard', path: '/evaluator/dashboard' },
     { icon: Brain, label: 'Pruebas', path: '/evaluator/tests' },
     { icon: CheckSquare, label: 'Revisiones', path: '/evaluator/applications' },
-    { icon: Settings, label: 'Configuracion', path: '/evaluator/settings' },
+    { icon: Settings, label: 'Configuración', path: '/evaluator/settings' },
   ];
 
   const aspirantLinks = [
@@ -42,7 +43,7 @@ export const Sidebar = ({ isOpen, onLinkClick }) => {
     { icon: FileText, label: 'Hoja de vida', path: '/aspirant/resume' },
     { icon: CheckSquare, label: 'Postulaciones', path: '/aspirant/my-applications' },
     { icon: Brain, label: 'Pruebas', path: '/aspirant/my-evaluations' },
-    { icon: Settings, label: 'Configuracion', path: '/aspirant/settings' },
+    { icon: Settings, label: 'Configuración', path: '/aspirant/settings' },
   ];
 
   const getLinks = () => {
@@ -62,8 +63,22 @@ export const Sidebar = ({ isOpen, onLinkClick }) => {
 
   const links = getLinks();
 
+  if (user?.role === 'aspirant') {
+    return null;
+  }
+
   return (
     <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
+      <div className="sidebar-brand">
+        <div className="sidebar-logo-block">
+          <span className="sidebar-logo">S</span>
+        </div>
+        <div className="sidebar-brand-text">
+          <strong>SIGECON</strong>
+          <span>{user?.role ? user.role.toUpperCase() : 'USUARIO'}</span>
+        </div>
+      </div>
+
       <nav className="sidebar-nav">
         <ul className="nav-list">
           {links.map((link) => {
@@ -75,7 +90,7 @@ export const Sidebar = ({ isOpen, onLinkClick }) => {
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                   onClick={onLinkClick}
                 >
-                  <Icon size={20} />
+                  <Icon size={18} />
                   <span>{link.label}</span>
                 </NavLink>
               </li>
@@ -83,6 +98,14 @@ export const Sidebar = ({ isOpen, onLinkClick }) => {
           })}
         </ul>
       </nav>
+
+      <div className="sidebar-footer">
+        <div className="sidebar-footer-item">
+          <Activity size={16} />
+          <span>Última sesión activa</span>
+        </div>
+        <div className="sidebar-footer-status">Activo</div>
+      </div>
     </aside>
   );
 };

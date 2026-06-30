@@ -4,7 +4,10 @@ import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 import authRoutes from './routes/authRoutes.js';
+import vacantesRoutes from './routes/vacantesRoutes.js';
+import postulacionesRoutes from './routes/postulacionesRoutes.js';
 import { testConnection } from './db/connection.js';
+import { ensureSchema } from './db/ensureSchema.js';
 import { initializeRoles } from './db/initRoles.js';
 dotenv.config();
 const app = express();
@@ -37,6 +40,8 @@ app.use('/api', (req, res, next) => {
     next();
 });
 app.use('/api/auth', authRoutes);
+app.use('/api/vacantes', vacantesRoutes);
+app.use('/api/postulaciones', postulacionesRoutes);
 app.get('/api/health', (_req, res) => {
     res.json({
         status: 'ok',
@@ -56,6 +61,8 @@ const startServer = async () => {
     try {
         await testConnection();
         console.log('MySQL connected successfully');
+        await ensureSchema();
+        console.log('Database schema verified');
         await initializeRoles();
         console.log('Default roles verified');
         databaseAvailable = true;

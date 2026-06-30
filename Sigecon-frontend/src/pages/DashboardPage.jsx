@@ -21,7 +21,12 @@ import { useAuth } from '../hooks/useAuth';
 import { DashboardStats } from '../components/Dashboard/StatCard';
 import { Card, CardBody, CardHeader } from '../components/Common/Card';
 import { VacancyCard } from '../components/Vacancies/VacancyCard';
-import { mockVacancies, mockApplications, statusLabels } from '../utils/mockData';
+import {
+  mockVacancies,
+  mockApplications,
+  mockCandidateResume,
+  statusLabels,
+} from '../utils/mockData';
 import '../styles/pages.css';
 
 const roleDashboards = {
@@ -529,17 +534,319 @@ const AdminOverviewPanel = ({ config, stats }) => (
   </>
 );
 
+const RecruiterDashboard = () => {
+  const recentCandidates = mockApplications.slice(0, 3);
+  const interviews = [
+    { name: 'María López', stage: 'Entrevista técnica', date: 'Hoy, 10:00 a.m.' },
+    { name: 'Ana Martínez', stage: 'Entrevista HR', date: 'Mañana, 2:00 p.m.' },
+    { name: 'Carlos González', stage: 'Entrevista final', date: 'Viernes, 11:00 a.m.' },
+  ];
+
+  return (
+    <>
+      <DashboardStats
+        stats={{
+          activeVacancies: mockVacancies.length,
+          totalApplications: mockApplications.length,
+          pendingEvaluations: mockApplications.filter((a) => !a.score).length,
+          hired: 1,
+        }}
+      />
+
+      <div className="admin-command-grid">
+        {[
+          { icon: Users, label: 'Candidatos recientes', path: '/recruiter/applicants' },
+          { icon: Briefcase, label: 'Entrevistas', path: '/recruiter/applicants' },
+          { icon: ClipboardCheck, label: 'Postulaciones', path: '/recruiter/applicants' },
+          { icon: Settings, label: 'Mensajes', path: '/recruiter/applicants' },
+        ].map((action) => {
+          const Icon = action.icon;
+          return (
+            <Link to={action.path} className="admin-command" key={action.label}>
+              <span className="quick-action-icon">
+                <Icon size={20} />
+              </span>
+              <span>{action.label}</span>
+              <small>Ver detalles</small>
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="dashboard-grid">
+        <Card>
+          <CardHeader>
+            <h2>Candidatos recientes</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="pipeline-list">
+              {recentCandidates.map((candidate) => (
+                <div className="pipeline-item" key={candidate.id}>
+                  <div>
+                    <strong>{candidate.candidateName}</strong>
+                    <span>{statusLabels[candidate.status]}</span>
+                  </div>
+                  <small>{candidate.appliedDate}</small>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <h2>Entrevistas programadas</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="admin-alert-list">
+              {interviews.map((item) => (
+                <div className="admin-alert-item" key={item.name}>
+                  <span>
+                    <Activity size={16} />
+                  </span>
+                  <p>
+                    <strong>{item.name}</strong> — {item.stage} <br />
+                    <small>{item.date}</small>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+
+      <section className="admin-operations-grid">
+        <Card>
+          <CardHeader>
+            <h2>Postulaciones</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="funnel-list">
+              {funnelStages.map((stage) => (
+                <div className="funnel-row" key={stage.label}>
+                  <div>
+                    <strong>{stage.label}</strong>
+                    <span>{stage.value} candidaturas</span>
+                  </div>
+                  <div className="funnel-track">
+                    <span
+                      className={`funnel-fill funnel-fill-${stage.tone}`}
+                      style={{ width: `${stage.value}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <h2>Estados</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="pipeline-list">
+              {Object.entries(statusLabels).slice(0, 4).map(([key, label]) => (
+                <div className="pipeline-item" key={key}>
+                  <div>
+                    <strong>{label}</strong>
+                    <span>Estado del proceso</span>
+                  </div>
+                  <small>{Math.floor(Math.random() * 30) + 8} items</small>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+      </section>
+
+      <div className="dashboard-grid">
+        <Card>
+          <CardHeader>
+            <h2>Vacantes activas</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="vacancies-grid">
+              {mockVacancies.map((vacancy) => (
+                <VacancyCard
+                  key={vacancy.id}
+                  vacancy={vacancy}
+                  onView={() => console.log('View vacancy', vacancy.id)}
+                  showActions={false}
+                />
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <h2>Mensajes recientes</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="admin-alert-list">
+              {[
+                'María ha enviado un documento adicional.',
+                'Carlos solicita una entrevista para el viernes.',
+                'Ana ha actualizado su perfil profesional.',
+              ].map((message) => (
+                <div className="admin-alert-item" key={message}>
+                  <span>
+                    <Mail size={16} />
+                  </span>
+                  <p>{message}</p>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+    </>
+  );
+};
+
+const AspirantDashboard = () => {
+  const recommendedVacancies = mockVacancies;
+
+  return (
+    <>
+      <div className="module-summary" style={{ marginBottom: '2rem' }}>
+        <div>
+          <strong>{recommendedVacancies.length}</strong>
+          <span>Ofertas recomendadas</span>
+        </div>
+        <div>
+          <strong>{mockApplications.length}</strong>
+          <span>Mis postulaciones</span>
+        </div>
+        <div>
+          <strong>92%</strong>
+          <span>Perfil completo</span>
+        </div>
+      </div>
+
+      <div className="admin-command-grid">
+        {[
+          { icon: Briefcase, label: 'Mi perfil', path: '/aspirant/resume' },
+          { icon: ShieldCheck, label: 'Hoja de vida', path: '/aspirant/resume' },
+          { icon: Users, label: 'Empresas destacadas', path: '/aspirant/vacancies' },
+          { icon: Mail, label: 'Mensajes', path: '/aspirant/vacancies' },
+        ].map((action) => {
+          const Icon = action.icon;
+          return (
+            <Link to={action.path} className="admin-command" key={action.label}>
+              <span className="quick-action-icon">
+                <Icon size={20} />
+              </span>
+              <span>{action.label}</span>
+              <small>Acceder</small>
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="dashboard-grid">
+        <Card>
+          <CardHeader>
+            <h2>Ofertas recomendadas</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="vacancies-grid">
+              {recommendedVacancies.map((vacancy) => (
+                <VacancyCard
+                  key={vacancy.id}
+                  vacancy={vacancy}
+                  onView={() => console.log('Ver oferta', vacancy.id)}
+                  showActions={false}
+                />
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <h2>Mi perfil y CV</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="resume-summary">
+              <div className="profile-summary">
+                <strong>{mockCandidateResume.fullName}</strong>
+                <span>{mockCandidateResume.title}</span>
+                <p className="section-text">{mockCandidateResume.professionalSummary}</p>
+              </div>
+              <div className="profile-meta-row">
+                <span>Email: {mockCandidateResume.email}</span>
+                <span>Telefono: {mockCandidateResume.phone}</span>
+                <span>Ubicación: {mockCandidateResume.location}</span>
+              </div>
+              <div className="resume-skill-tags">
+                {mockCandidateResume.skills.slice(0, 4).map((skill) => (
+                  <span key={skill.id} className="skill-chip">{skill.name}</span>
+                ))}
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+
+      <section className="admin-operations-grid">
+        <Card>
+          <CardHeader>
+            <h2>Mis postulaciones</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="pipeline-list">
+              {mockApplications.map((application) => (
+                <div className="pipeline-item" key={application.id}>
+                  <div>
+                    <strong>{application.candidateName}</strong>
+                    <span>{statusLabels[application.status]}</span>
+                  </div>
+                  <small>{application.appliedDate}</small>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <h2>Empresas destacadas</h2>
+          </CardHeader>
+          <CardBody>
+            <div className="featured-company-list">
+              {['Data Smart', 'Creativa Studio', 'Empresa Tech'].map((company) => (
+                <div className="featured-company-item" key={company}>
+                  <div>
+                    <strong>{company}</strong>
+                    <span>Empresa con oportunidades activas</span>
+                  </div>
+                  <small>5 vacantes</small>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+      </section>
+    </>
+  );
+};
+
 export const DashboardPage = () => {
   const { user } = useAuth();
   const location = useLocation();
   const config = getDashboardConfig(user?.role);
   const isAdmin = user?.role === 'admin';
+  const isRecruiter = user?.role === 'recruiter';
+  const isAspirant = ['aspirant', 'candidate'].includes(user?.role);
   const isAdminUsers = isAdmin && location.pathname === '/admin/users';
   const isSettings = [
     '/admin/settings',
     '/recruiter/settings',
     '/evaluator/settings',
     '/aspirant/settings',
+    '/candidate/settings',
   ].includes(location.pathname);
   const stats = {
     activeVacancies: mockVacancies.length,
@@ -572,7 +879,12 @@ export const DashboardPage = () => {
       {isSettings && <AdminSettingsPanel user={user} showRegisteredUsers={isAdmin} />}
       {isAdminUsers && <AdminUsersPanel />}
       {!isSettings && !isAdminUsers && (
-        <AdminOverviewPanel config={config} stats={stats} />
+        <>
+          {isAdmin && <AdminOverviewPanel config={config} stats={stats} />}
+          {isRecruiter && <RecruiterDashboard />}
+          {isAspirant && <AspirantDashboard />}
+          {!isAdmin && !isRecruiter && !isAspirant && <AdminOverviewPanel config={config} stats={stats} />}
+        </>
       )}
     </div>
   );

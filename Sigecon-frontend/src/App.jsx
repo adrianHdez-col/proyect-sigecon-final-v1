@@ -23,7 +23,7 @@ const roleHome = {
 };
 
 const ProtectedLayout = () => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (loading) {
@@ -35,7 +35,7 @@ const ProtectedLayout = () => {
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell role-${user?.role || 'guest'}`}>
       <Header
         mobileMenuOpen={mobileMenuOpen}
         onMenuToggle={() => setMobileMenuOpen((open) => !open)}

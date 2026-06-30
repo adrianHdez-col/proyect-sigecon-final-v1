@@ -26,12 +26,77 @@ export const getUserByEmail = async (email: string) => {
   return Array.isArray(rows) && rows.length > 0 ? (rows[0] as any) : null;
 };
 
+const generateSubdomain = (name: string) => {
+  const normalized = name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+  return normalized || `empresa-${Date.now()}`;
+};
+
+const getUniqueSubdomain = async (baseName: string) => {
+  let subdomain = generateSubdomain(baseName);
+  let suffix = 0;
+
+  while (true) {
+    const candidate = suffix === 0 ? subdomain : `${subdomain}-${suffix}`;
+    const [rows] = await db.query('SELECT id FROM empresas WHERE subdominio = ?', [candidate]);
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return candidate;
+    }
+    suffix += 1;
+  }
+};
+
+const findOrCreateCompany = async (data: {
+  companyName: string;
+  companyNit?: string | null;
+  companyAddress?: string | null;
+  companyPhone?: string | null;
+  companyEmail?: string | null;
+  companyWebsite?: string | null;
+}) => {
+  const [companyRows] = await db.query(
+    'SELECT id FROM empresas WHERE nombre = ? OR nit = ? OR email_contacto = ?',
+    [data.companyName, data.companyNit || null, data.companyEmail || null]
+  );
+
+  if (Array.isArray(companyRows) && companyRows.length > 0) {
+    return (companyRows[0] as any).id;
+  }
+
+  const subdominio = await getUniqueSubdomain(data.companyName);
+  const [result] = await db.execute(
+    'INSERT INTO empresas (nombre, nit, direccion, telefono, email_contacto, sitio_web, subdominio, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [
+      data.companyName,
+      data.companyNit || null,
+      data.companyAddress || null,
+      data.companyPhone || null,
+      data.companyEmail || null,
+      data.companyWebsite || null,
+      subdominio,
+      true,
+    ]
+  );
+
+  return (result as any).insertId;
+};
+
 export const createUser = async (data: {
   fullName: string;
   email: string;
   passwordHash: string;
   role: string;
   company?: string | null;
+  companyName?: string | null;
+  companyNit?: string | null;
+  companyAddress?: string | null;
+  companyPhone?: string | null;
+  companyEmail?: string | null;
+  companyWebsite?: string | null;
 }) => {
   const roleName =
     data.role === 'recruiter'
@@ -50,12 +115,24 @@ export const createUser = async (data: {
   }
 
   let companyId = null;
-  if (data.company) {
+  if (data.role === 'recruiter') {
+    const companyName = data.companyName || data.company;
+    if (!companyName) {
+      throw new AppError('El nombre de la empresa es obligatorio para los reclutadores.', 400);
+    }
+
+    companyId = await findOrCreateCompany({
+      companyName,
+      companyNit: data.companyNit,
+      companyAddress: data.companyAddress,
+      companyPhone: data.companyPhone,
+      companyEmail: data.companyEmail || data.email,
+      companyWebsite: data.companyWebsite,
+    });
+  } else if (data.company) {
     const [companyRows] = await db.query('SELECT id FROM empresas WHERE nombre = ?', [data.company]);
     if (Array.isArray(companyRows) && companyRows.length > 0) {
       companyId = (companyRows[0] as any).id;
-    } else if (data.role === 'recruiter') {
-      throw new AppError(`La empresa '${data.company}' no está registrada en el sistema.`, 400);
     }
   }
 

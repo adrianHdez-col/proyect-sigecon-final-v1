@@ -209,7 +209,7 @@ export const CompanyLoginForm = () => {
             </Link>
             <p className="auth-switch modern-switch">
               ¿Tu empresa no está registrada?{' '}
-              <Link to="/register">Regístrate aquí</Link>
+              <Link to="/register">Registrar Empresa</Link>
             </p>
           </div>
         </form>

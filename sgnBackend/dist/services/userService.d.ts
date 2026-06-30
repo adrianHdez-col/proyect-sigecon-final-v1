@@ -9,4 +9,10 @@ export declare const createUser: (data: {
     passwordHash: string;
     role: string;
     company?: string | null;
+    companyName?: string | null;
+    companyNit?: string | null;
+    companyAddress?: string | null;
+    companyPhone?: string | null;
+    companyEmail?: string | null;
+    companyWebsite?: string | null;
 }) => Promise<any>;

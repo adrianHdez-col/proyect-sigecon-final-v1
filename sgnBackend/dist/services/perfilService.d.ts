@@ -1,0 +1,34 @@
+export declare const getCandidateProfile: (userId: number) => Promise<{
+    completion: number;
+    id: any;
+    fullName: any;
+    email: any;
+    phone: any;
+    title: any;
+    location: any;
+    linkedin: any;
+    website: any;
+    languages: any;
+    professionalSummary: any;
+    experience: any;
+    education: any;
+    skills: any;
+    certifications: any;
+} | null>;
+export declare const upsertCandidateProfile: (userId: number, data: any) => Promise<{
+    completion: number;
+    id: any;
+    fullName: any;
+    email: any;
+    phone: any;
+    title: any;
+    location: any;
+    linkedin: any;
+    website: any;
+    languages: any;
+    professionalSummary: any;
+    experience: any;
+    education: any;
+    skills: any;
+    certifications: any;
+} | null>;

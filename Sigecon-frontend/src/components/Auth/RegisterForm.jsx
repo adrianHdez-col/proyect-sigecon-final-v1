@@ -241,6 +241,12 @@ export const RegisterForm = () => {
       company,
       role,
       password: formData.password,
+      companyName: isCompany ? formData.companyName : null,
+      companyNit: isCompany ? formData.companyId : null,
+      companyAddress: isCompany ? formData.companyAddress : null,
+      companyPhone: isCompany ? formData.representativePhone : null,
+      companyEmail: isCompany ? formData.corporateEmail : null,
+      companyWebsite: isCompany ? formData.companyWebsite : null,
     });
     setLoading(false);
 

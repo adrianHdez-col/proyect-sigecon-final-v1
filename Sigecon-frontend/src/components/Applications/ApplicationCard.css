@@ -1,16 +1,17 @@
 .application-card {
-  background-color: white;
-  border-radius: var(--radius-lg);
+  background-color: var(--surface);
+  border-radius: 24px;
   padding: var(--spacing-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   transition: var(--transition);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .application-card:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
@@ -23,7 +24,7 @@
 
 .app-info h3 {
   margin: 0 0 var(--spacing-sm) 0;
-  color: var(--gray-900);
+  color: var(--text);
 }
 
 .app-meta {
@@ -36,8 +37,8 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  font-size: 0.9rem;
-  color: var(--gray-600);
+  font-size: 0.95rem;
+  color: var(--text-soft);
 }
 
 .meta-item svg {
@@ -46,14 +47,17 @@
 }
 
 .app-status {
-  display: inline-block;
-  color: white;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-md);
-  font-size: 0.75rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.77rem;
+  font-weight: 700;
   text-transform: uppercase;
   white-space: nowrap;
+  color: var(--surface);
+  background-color: var(--primary);
 }
 
 .app-contact {
@@ -61,31 +65,31 @@
   gap: var(--spacing-md);
   flex-wrap: wrap;
   padding: var(--spacing-md) 0;
-  border-top: 1px solid var(--gray-200);
-  border-bottom: 1px solid var(--gray-200);
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .app-contact a {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  font-size: 0.9rem;
-  color: var(--primary);
+  font-size: 0.95rem;
+  color: var(--primary-dark);
   text-decoration: none;
   transition: var(--transition);
 }
 
 .app-contact a:hover {
-  color: var(--primary-dark);
+  color: var(--primary);
 }
 
 .app-score {
-  background-color: var(--warning-soft);
+  background-color: rgba(22, 163, 74, 0.12);
   padding: var(--spacing-md);
-  border-radius: var(--radius-md);
+  border-radius: 20px;
   text-align: center;
-  font-weight: 600;
-  color: #78350f;
+  font-weight: 700;
+  color: var(--success-dark);
 }
 
 .app-actions {

@@ -1,126 +1,292 @@
 .vacancy-card {
-  background-color: white;
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow-md);
-  transition: var(--transition);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) minmax(190px, 0.32fr);
+  gap: 1.45rem;
+  align-items: center;
+  min-height: 150px;
+  padding: 1.35rem;
+  border: 1px solid #dfe4ee;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(20, 24, 42, 0.05);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
 .vacancy-card:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-4px);
+  border-color: #cfd6e6;
+  box-shadow: 0 24px 48px rgba(20, 24, 42, 0.09);
+  transform: translateY(-2px);
+}
+
+.vacancy-card-loading {
+  min-height: 150px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent),
+    #eef2f8;
+  background-size: 220% 100%;
+  animation: vacancySkeleton 1.1s ease infinite;
+}
+
+@keyframes vacancySkeleton {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+.vacancy-logo {
+  width: 72px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #101828, #020617);
+  color: white;
+  font-size: 1.22rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.vacancy-card:nth-child(3n + 2) .vacancy-logo {
+  background: linear-gradient(135deg, #6d5dfc, #3b24c6);
+}
+
+.vacancy-card:nth-child(3n + 3) .vacancy-logo {
+  background: linear-gradient(135deg, #2878ff, #1351c7);
+}
+
+.vacancy-card:nth-child(3n + 4) .vacancy-logo {
+  background: linear-gradient(135deg, #18b865, #087c3d);
+}
+
+.vacancy-content {
+  min-width: 0;
 }
 
 .vacancy-header {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
   align-items: flex-start;
-  gap: var(--spacing-md);
 }
 
 .vacancy-header h3 {
-  margin: 0;
-  color: var(--gray-900);
-  font-size: 1.25rem;
+  margin: 0 0 0.28rem;
+  color: #101522;
+  font-size: 1.1rem;
+  line-height: 1.25;
 }
 
-.vacancy-status {
-  display: inline-block;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-md);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.status-active {
-  background-color: var(--success-soft);
-  color: var(--success-dark);
-}
-
-.status-inactive {
-  background-color: var(--danger-soft);
-  color: var(--danger-dark);
+.vacancy-header-right {
+  display: none;
+  align-items: center;
+  gap: 0.65rem;
 }
 
 .vacancy-department {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   margin: 0;
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 0.95rem;
+  color: #3f485c;
+  font-size: 0.93rem;
+  font-weight: 800;
+}
+
+.vacancy-department svg {
+  color: #5a4ff3;
 }
 
 .vacancy-description {
-  margin: var(--spacing-sm) 0;
-  color: var(--gray-600);
-  line-height: 1.6;
+  display: -webkit-box;
+  margin: 0.75rem 0 0;
+  overflow: hidden;
+  color: #647086;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .vacancy-details {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md) 0;
-  border-top: 1px solid var(--gray-200);
-  border-bottom: 1px solid var(--gray-200);
+  align-items: center;
+  gap: 0.8rem 1.05rem;
+  margin-top: 0.55rem;
 }
 
 .detail {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  font-size: 0.9rem;
-  color: var(--gray-700);
+  gap: 0.35rem;
+  color: #667085;
+  font-size: 0.86rem;
+  font-weight: 650;
 }
 
 .detail svg {
-  color: var(--primary);
-  flex-shrink: 0;
+  color: #667085;
 }
 
 .vacancy-skills {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  gap: 0.55rem;
+  margin-top: 0.9rem;
 }
 
 .skill-tag {
-  display: inline-block;
-  background-color: var(--primary-soft);
-  color: var(--primary-dark);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-md);
-  font-size: 0.85rem;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  background: #eef1f6;
+  color: #465166;
+  font-size: 0.79rem;
+  font-weight: 750;
+}
+
+.vacancy-side {
+  display: grid;
+  justify-items: start;
+  gap: 0.7rem;
+  color: #4e596f;
+  font-size: 0.88rem;
+}
+
+.vacancy-side small {
+  color: #687386;
+  font-weight: 650;
+}
+
+.vacancy-side strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #344054;
+  font-size: 0.94rem;
+  line-height: 1.4;
+}
+
+.vacancy-status,
+.vacancy-applied-badge,
+.vacancy-new-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0.2rem 0.62rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-active,
+.vacancy-new-badge {
+  color: #087443;
+  background: #dff8e8;
+  border: 1px solid #a9e8bf;
+}
+
+.status-inactive {
+  color: #b42318;
+  background: #ffebe8;
+  border: 1px solid #ffc9c2;
+}
+
+.vacancy-applied-badge {
+  color: #4f46e5;
+  background: #ebeaff;
+  border: 1px solid #cac8ff;
+}
+
+.vacancy-save-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #667085;
+}
+
+.vacancy-save-btn.saved,
+.vacancy-save-btn:hover {
+  color: #5847f5;
+  background: #f0eeff;
 }
 
 .vacancy-actions {
   display: flex;
-  gap: var(--spacing-sm);
-  justify-content: flex-end;
-  padding-top: var(--spacing-md);
-  border-top: 1px solid var(--gray-200);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
 }
 
-.vacancy-actions button {
-  flex: 1;
+.vacancy-actions .btn {
+  min-height: 38px;
+  border-radius: 7px;
+  padding-inline: 0.95rem;
+  box-shadow: none;
 }
 
-@media (max-width: 768px) {
+.vacancy-actions .btn-primary {
+  background: #5847f5;
+}
+
+.vacancy-actions .btn-primary:hover:not(:disabled) {
+  background: #493bd6;
+}
+
+@media (max-width: 900px) {
+  .vacancy-card {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+
+  .vacancy-logo {
+    width: 62px;
+  }
+
+  .vacancy-header-right {
+    display: inline-flex;
+  }
+
+  .vacancy-side {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .vacancy-side .vacancy-status {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .vacancy-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .vacancy-logo {
+    width: 58px;
+  }
+
   .vacancy-header {
     flex-direction: column;
   }
 
-  .vacancy-details {
-    flex-direction: column;
-    gap: var(--spacing-sm);
+  .optional-detail {
+    display: none;
   }
 
-  .vacancy-actions {
-    flex-direction: column;
+  .vacancy-actions .btn {
+    width: 100%;
   }
 }

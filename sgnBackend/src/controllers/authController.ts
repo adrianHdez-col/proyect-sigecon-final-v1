@@ -30,10 +30,20 @@ export const register = async (req: Request, res: Response) => {
       password,
       role = 'aspirant',
       company,
+      companyName,
+      companyNit,
+      companyAddress,
+      companyWebsite,
+      companyEmail,
+      companyPhone,
     } = req.body;
 
     if (!fullName || !email || !password) {
       return res.status(400).json({ message: 'Nombre, correo y contrasena son obligatorios.' });
+    }
+
+    if (role === 'recruiter' && !(companyName || company)) {
+      return res.status(400).json({ message: 'El nombre de la empresa es obligatorio para el registro de empresas.' });
     }
 
     if (!validateEmail(email)) {
@@ -57,6 +67,12 @@ export const register = async (req: Request, res: Response) => {
       passwordHash,
       role,
       company: company || null,
+      companyName: companyName || company || null,
+      companyNit: companyNit || null,
+      companyAddress: companyAddress || null,
+      companyWebsite: companyWebsite || null,
+      companyEmail: companyEmail || email,
+      companyPhone: companyPhone || null,
     });
 
     const token = signToken({ id: userId, email, role: mapDbRoleToUi(dbRole) });

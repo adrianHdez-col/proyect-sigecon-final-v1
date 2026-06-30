@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createApplication, getCandidateApplications } from '../services/postulacionesServices.js';
 export const getMyApplications = async (req, res) => {
     try {
@@ -49,3 +50,6 @@ export const applyToVacancy = async (req, res) => {
         return res.status(500).json({ message: 'Error interno del servidor.' });
     }
 };
+=======
+export {};
+>>>>>>> 0791f2620e0ffdfb7daf0b03755f026d38dd79c2

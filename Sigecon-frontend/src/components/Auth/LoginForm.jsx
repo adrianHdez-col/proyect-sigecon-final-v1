@@ -188,7 +188,7 @@ export const LoginForm = () => {
               ))}
             </div>
           </div>
-
+              
           <p className="auth-switch modern-switch">
             ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
           </p>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export declare const getActiveVacancies: () => Promise<{
     id: any;
     title: any;
@@ -11,3 +12,6 @@ export declare const getActiveVacancies: () => Promise<{
     status: string;
     applicants: number;
 }[]>;
+=======
+export {};
+>>>>>>> 0791f2620e0ffdfb7daf0b03755f026d38dd79c2

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { getActiveVacancies } from '../services/vacantesServices.js';
 export const listVacancies = async (_req, res) => {
     try {
@@ -9,3 +10,6 @@ export const listVacancies = async (_req, res) => {
         return res.status(500).json({ message: 'Error interno del servidor.' });
     }
 };
+=======
+export {};
+>>>>>>> 0791f2620e0ffdfb7daf0b03755f026d38dd79c2

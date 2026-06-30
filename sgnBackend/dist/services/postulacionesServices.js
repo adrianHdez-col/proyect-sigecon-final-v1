@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { db } from '../db/connection.js';
 import { AppError } from './userService.js';
 export const getCandidateApplications = async (candidateId) => {
@@ -29,3 +30,6 @@ export const createApplication = async (candidateId, vacancyId, comments) => {
         throw error;
     }
 };
+=======
+export {};
+>>>>>>> 0791f2620e0ffdfb7daf0b03755f026d38dd79c2

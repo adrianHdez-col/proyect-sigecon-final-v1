@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { db } from '../db/connection.js';
 export const getActiveVacancies = async () => {
     const [rows] = await db.query(`
@@ -43,3 +44,6 @@ export const getActiveVacancies = async () => {
         applicants: Number(vacancy.applicants || 0),
     }));
 };
+=======
+export {};
+>>>>>>> 0791f2620e0ffdfb7daf0b03755f026d38dd79c2
